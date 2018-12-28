@@ -395,8 +395,8 @@ padding: 0 1rem;
   color: var(--color-grey-light-6);
 }
 
-.btn--white {
-  background-color: var(--color-white);
+.btn--ghost {
+  background-color: transparent;
   border: 1px solid var(--color-grey-dark-2);
 }
 

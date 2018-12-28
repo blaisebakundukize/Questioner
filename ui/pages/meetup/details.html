@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>All meetups</title>
+  <title>Meetup Details</title>
   <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
   <link rel="stylesheet" type="text/css" media="screen" href="../../css/main.css">
   <link rel="stylesheet" type="text/css" media="screen" href="../../css/meetup.css">
@@ -26,10 +26,10 @@
     <nav class="header-nav">
       <ul class="main-nav">
         <li class="main-nav__item">
-          <a href="#" class="main-nav__link">All meetups</a>
+          <a href="../meetup/meetups.html" class="main-nav__link">All meetups</a>
         </li>
         <li class="main-nav__item">
-          <a href="#" class="main-nav__link">My profile</a>
+          <a href="../user/profile.html" class="main-nav__link">My profile</a>
         </li>
       </ul>
     </nav>
@@ -108,7 +108,7 @@
       <div class="event-status">
         <p class="text text--bold">Are you going?</p>
         <div class="event-status__indicator">
-          <button class="btn btn--white event-status__indicator-status indicator-yes">Yes</button>
+          <button class="btn btn--ghost event-status__indicator-status indicator-yes">Yes</button>
           <button class="btn btn--ghost event-status__indicator-status indicator-no">No</button>
           <button class="btn btn--ghost event-status__indicator-status indicator-maybe">Maybe</button>
         </div>
@@ -149,6 +149,134 @@
         </p>
         <div class="meetup-details__gallery margin-top-small margin-bottom-small">
           <h3 class="heading-tertiary margin-bottom-small">Gallery</h3>
+        </div>
+        <div class="meetup-question">
+          <h3 class="heading-tertiary margin-bottom-small">Questions</h3>
+          <form action="#" class="form-feedback">
+            <label for="question" class="text text--grey">Ask Question!</label>
+            <textarea class="form-feedback__area" placeholder="What is Your Question?" name="question"></textarea>
+            <div class="form-feedback__btn-container">
+              <button class="btn form-feedback__btn">Cancel</button>
+              <button class="btn btn--blue form-feedback__btn">Send</button>
+            </div>
+          </form>
+          <div class="meetup-question__box">
+            <div class="question-box flex--row margin-bottom-medium">
+              <div class="question-box__votes">
+                <svg class="vote-icon">
+                  <use xlink:href="../../assets/icons/sprite.svg#icon-arrow-bold-up"></use>
+                </svg>
+                <span class="votes">3.4k</span>
+                <svg class="vote-icon">
+                  <use xlink:href="../../assets/icons/sprite.svg#icon-arrow-bold-down"></use>
+                </svg>
+              </div>
+              <div class="question-box__main">
+                <div class="question-posted text--small text--grey">
+                  <span class="question-posted__by">Blaise Bakundukize</span>
+                  <span class="question-posted__on">3 days ago</span>
+                </div>
+                <div class="question-box__title">
+                  <p class="text--small">
+                    Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat?
+                  </p>
+                </div>
+                <div class="question-box__feedback">
+                  <div class="question-box__comments flex--row">
+                    <span class="text--btn text--small text--grey">Comment</span>
+                    <div class="question-box__mobile-votes">
+                    </div>
+                  </div>
+                  <span class="text--small load-more-text">
+                    View 4 comments
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="question-box flex--row margin-bottom-medium">
+              <div class="question-box__votes">
+                <svg class="vote-icon">
+                  <use xlink:href="../../assets/icons/sprite.svg#icon-arrow-bold-up"></use>
+                </svg>
+                <span class="votes">87</span>
+                <svg class="vote-icon">
+                  <use xlink:href="../../assets/icons/sprite.svg#icon-arrow-bold-down"></use>
+                </svg>
+              </div>
+              <div class="question-box__main">
+                <div class="question-posted text--small text--grey">
+                  <span class="question-posted__by">Blaise Bakundukize</span>
+                  <span class="question-posted__on">3 days ago</span>
+                </div>
+                <div class="question-box__title">
+                  <p class="text--small">
+                    Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat?
+                  </p>
+                </div>
+                <div class="question-box__feedback">
+                  <div class="question-box__comments flex--row">
+                    <span class="text--btn text--small text--grey">Comment</span>
+                    <div class="question-box__mobile-votes">
+                    </div>
+                  </div>
+                  <span class="text--small load-more-text">
+                    Hide comments
+                  </span>
+                </div>
+                <div class="question-box margin-top-small">
+                  <div class="question-box__comment">
+                    <div class="question-posted text--small text--grey">
+                      <span class="question-posted__by">Blaise Bakundukize</span>
+                      <span class="question-posted__on">3 days ago</span>
+                    </div>
+                    <div class="question-box__title">
+                      <p class="text--small">
+                        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis.
+                      </p>
+                    </div>
+                    <div class="question-box__feedback">
+                      <div class="question-box__comments flex--row">
+                        <span class="text--btn text--small text--grey">Comment</span>
+                        <div class="question-box__mobile-votes">
+                        </div>
+                      </div>
+                      <span class="text--small load-more-text">
+                        Hide comments
+                      </span>
+                      <div class="question-box margin-top-small">
+                        <div class="question-box__comment">
+                          <div class="question-posted text--small text--grey">
+                            <span class="question-posted__by">Blaise Bakundukize</span>
+                            <span class="question-posted__on">3 days ago</span>
+                          </div>
+                          <div class="question-box__title">
+                            <p class="text--small">
+                              Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                              veniam,
+                              quis.
+                            </p>
+                          </div>
+                          <div class="question-box__feedback">
+                            <div class="question-box__comments flex--row">
+                              <span class="text--btn text--small text--grey">Comment</span>
+                              <div class="question-box__mobile-votes">
+                              </div>
+                            </div>
+                            <span class="text--small load-more-text">
+                              View 2 comments
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="right-sidebar">
