@@ -1,0 +1,135 @@
+.banner {
+  width: 100%;
+  margin-top: 7rem;
+  padding: 1rem 0;
+  background-color: var(--color-grey-dark-1);
+  /* background-image: linear-gradient(to right bottom, var(--color-primary-light), var(--color-primary-dark)); */
+}
+
+.banner-paragraph {
+  font-weight: 300;
+  letter-spacing: .3rem;
+}
+
+.meetups {
+  flex: 0 0 65%;
+}
+
+.meetup__link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.meetup {
+  display: flex;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-grey-light-5);
+  width: 100%;
+  margin: 0 auto;
+}
+
+.meetup__time {
+  width: 10rem;
+  padding-top: 0.5rem;
+  font-size: var(--default-font-size);
+  background-color: var(--color-grey-light-6);
+  text-align: center;
+}
+
+.meetup__details {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.meetup__posted {
+  display: flex;
+  justify-content: space-between;
+  color: var(--color-grey-dark-2);
+  margin-bottom: 0.4rem;
+}
+
+.meetup__posted-name {
+  font-size: 1.2rem;
+  /* text-transform: uppercase; */
+}
+
+.meetup__posted-time {
+  margin-left: 3rem;
+}
+
+.meetup__posted-going {
+  align-items: center;
+}
+
+.meetup__opinion {
+  color: var(--color-grey-dark-2);
+  display: flex;
+}
+
+.meetup__opinion > * {
+  display: flex;
+  align-items: center;
+}
+
+.meetup__opinion > *:not(:last-child){
+  margin-right: 2rem;
+}
+
+.meetup__opinion-label {
+  font-size: 1.1rem;
+  margin-left: 2px;
+}
+
+.meetup__opinion-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: .3rem;
+  fill: var(--color-grey-dark-2);
+}
+
+.meetup__going-icon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  padding: 2px;
+  fill: var(--color-white);
+}
+
+.icon-background-green {
+  background-color: var(--color-green-light-1);
+}
+
+.icon-background-grey {
+  background-color: var(--color-grey-dark-2);
+}
+
+.icon-grey {
+
+}
+
+.right-sidebar-nav {
+  border: var(--line);
+}
+
+.right-sidebar-nav__item {
+  list-style: none;
+}
+
+.right-sidebar-nav__item:not(:last-child) {
+  border-bottom: var(--line);
+}
+
+.right-sidebar-nav__link {
+  display: block;
+  padding: 2rem 2rem;
+  text-decoration: none;
+  color: var(--color-grey-dark-2);
+}
+
+.right-sidebar-nav__link:hover,
+.right-sidebar-nav__link:active {
+  text-decoration: underline;
+}
+

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>All meetups</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" media="screen" href="../../css/main.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="../../css/meetup.css">
+</head>
+
+<body>
+  <header class="header">
+    <img src="../../assets/img/logo.png" alt="" class="logo">
+    <form action="#" class="search">
+      <input type="text" class="search__input" placeholder="Search meetups">
+      <button class="search__btn">
+        <svg class="search__icon">
+          <use xlink:href="../../assets/icons/sprite.svg#icon-magnifying-glass"></use>
+        </svg>
+      </button>
+    </form>
+
+    <nav class="header-nav">
+      <ul class="main-nav">
+        <li class="main-nav__item">
+          <a href="#" class="main-nav__link current">All meetups</a>
+        </li>
+        <li class="main-nav__item">
+          <a href="#" class="main-nav__link">My profile</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="user-nav">
+      <div class="user-nav__icon-box">
+        <svg class="user-nav__icon">
+          <use xlink:href="../../assets/icons/sprite.svg#icon-chat"></use>
+        </svg>
+        <span class="user-nav__notification">2</span>
+      </div>
+      <div class="user-nav__icon-box">
+        <svg class="user-nav__icon">
+          <use xlink:href="../../assets/icons/sprite.svg#icon-bell"></use>
+        </svg>
+        <span class="user-nav__notification">10</span>
+      </div>
+      <div class="user-nav__user">
+        <figure class="user-nav__profile-photo">
+          <img src="../../upload/img/user.jpg" alt="User photo" class="user-nav__user-photo">
+        </figure>
+        <!-- <span class="user-nav__user-name">Blezobakundukize</span> -->
+        <svg class="user-nav__icon-profile">
+          <use xlink:href="../../assets/icons/sprite.svg#icon-chevron-thin-down"></use>
+        </svg>
+      </div>
+    </div>
+    <!-- <div class="profile">
+      <ul class="profile-nav">
+        <li class="profile-nav__item">
+          <a href="#" class="profile-nav__link">
+            My profile
+          </a>
+        </li>
+        <li class="profile-nav__item">
+          <a href="#" class="profile-nav__link">
+            Reset password
+          </a>
+        </li>
+        <li class="profile-nav__item">
+          <a href="#" class="profile-nav__link">
+            Logout
+          </a>
+        </li>
+      </ul>
+    </div> -->
+  </header>
+  <div class="banner">
+    <div class="container">
+      <h1 class="heading-primary center-text text--white">
+        <span class="heading-primary--main">Questioner</span>
+        <span class="heading-primary--sub">Is where Questions asked</span>
+      </h1>
+      <p class="text--medium text--white center-text banner-paragraph">
+        You can ask questions, upvote and downvote questions on Meetups.
+      </p>
+    </div>
+  </div>
+  <div class="container margin-top-small">
+    <div class="content">
+      <main class="meetups">
+        <div class="meetup-container margin-bottom-small">
+          <a href="./details.html" class="meetup__link">
+            <div class="meetup">
+              <div class="meetup__time">
+                <p class="meetup__time-clock">
+                  8:30 AM
+                </p>
+              </div>
+              <div class="meetup__details">
+                <div class="meetup__posted">
+                  <span>
+                    <span class="meetup__posted-name">Blaise Bakundukize</span>
+                    <span class="meetup__posted-time">3 days ago</span>
+                  </span>
+                  <div class="flex--row meetup__posted-going">
+                    <span class="text text--green">Yes</span>&nbsp;&nbsp;&nbsp;
+                    <svg class="meetup__going-icon icon-background-green">
+                      <use xlink:href="../../assets/icons/sprite.svg#icon-check"></use>
+                    </svg>
+                  </div>
+                </div>
+                <div class="meetup__title">
+                  <h3 class="heading-tertiary">Andela developer day</h3>
+                </div>
+                <div class="meetup__opinion">
+                  <div class="meetup__questions">
+                    <svg class="meetup__opinion-icon">
+                      <use xlink:href="../../assets/icons/sprite.svg#icon-message"></use>
+                    </svg>
+                    <span class="meetup__opinion-label">15 Questions</span>
+                  </div>
+                  <div class="meetup__comments">
+                    <svg class="meetup__opinion-icon">
+                      <use xlink:href="../../assets/icons/sprite.svg#icon-message"></use>
+                    </svg>
+                    <span class="meetup__opinion-label">20 Comments</span>
+                  </div>
+                  <div class="meetup__member">
+                    <svg class="meetup__opinion-icon">
+                      <use xlink:href="../../assets/icons/sprite.svg#icon-users"></use>
+                    </svg>
+                    <span class="meetup__opinion-label">100 Going</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="meetup-container margin-bottom-small">
+          <a href="./details.html" class="meetup__link">
+            <div class="meetup">
+              <div class="meetup__time">
+                <p class="meetup__time-clock">
+                  8:30 AM
+                </p>
+              </div>
+              <div class="meetup__details">
+                <div class="meetup__posted">
+                  <span>
+                    <span class="meetup__posted-name">Blaise Bakundukize</span>
+                    <span class="meetup__posted-time">3 days ago</span>
+                  </span>
+                  <div class="flex--row meetup__posted-going">
+                    <span class="text text--grey">No</span>&nbsp;&nbsp;&nbsp;
+                    <svg class="meetup__going-icon icon-background-grey">
+                      <use xlink:href="../../assets/icons/sprite.svg#icon-cross"></use>
+                    </svg>
+                    <span class=""></span>
+                  </div>
+                </div>
+                <div class="meetup__title">
+                  <h3 class="heading-tertiary">Andela developer day</h3>
+                </div>
+                <div class="meetup__opinion">
+                  <div class="meetup__questions">
+                    <svg class="meetup__opinion-icon">
+                      <use xlink:href="../../assets/icons/sprite.svg#icon-message"></use>
+                    </svg>
+                    <span class="meetup__opinion-label">15 Questions</span>
+                  </div>
+                  <div class="meetup__comments">
+                    <svg class="meetup__opinion-icon">
+                      <use xlink:href="../../assets/icons/sprite.svg#icon-message"></use>
+                    </svg>
+                    <span class="meetup__opinion-label">20 Comments</span>
+                  </div>
+                  <div class="meetup__member">
+                    <svg class="meetup__opinion-icon">
+                      <use xlink:href="../../assets/icons/sprite.svg#icon-users"></use>
+                    </svg>
+                    <span class="meetup__opinion-label">100 Going</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="meetup-container margin-bottom-small">
+          <a href="./details.html" class="meetup__link">
+            <div class="meetup">
+              <div class="meetup__time">
+                <p class="meetup__time-clock">
+                  8:30 AM
+                </p>
+              </div>
+              <div class="meetup__details">
+                <div class="meetup__posted">
+                  <span>
+                    <span class="meetup__posted-name">Blaise Bakundukize</span>
+                    <span class="meetup__posted-time">3 days ago</span>
+                  </span>
+                  <div class="flex--row meetup__posted-going">
+                    <span class="text text--grey">Maybe</span>&nbsp;&nbsp;&nbsp;
+                    <svg class="meetup__going-icon icon-background-grey">
+                      <use xlink:href="../../assets/icons/sprite.svg#icon-help"></use>
+                    </svg>
+                  </div>
+                </div>
+                <div class="meetup__title">
+                  <h3 class="heading-tertiary">Andela developer day</h3>
+                </div>
+                <div class="meetup__opinion">
+                  <div class="meetup__questions">
+                    <svg class="meetup__opinion-icon">
+                      <use xlink:href="../../assets/icons/sprite.svg#icon-message"></use>
+                    </svg>
+                    <span class="meetup__opinion-label">15 Questions</span>
+                  </div>
+                  <div class="meetup__comments">
+                    <svg class="meetup__opinion-icon">
+                      <use xlink:href="../../assets/icons/sprite.svg#icon-message"></use>
+                    </svg>
+                    <span class="meetup__opinion-label">20 Comments</span>
+                  </div>
+                  <div class="meetup__member">
+                    <svg class="meetup__opinion-icon">
+                      <use xlink:href="../../assets/icons/sprite.svg#icon-users"></use>
+                    </svg>
+                    <span class="meetup__opinion-label">100 Going</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="meetup-container margin-bottom-small">
+          <a href="./details.html" class="meetup__link">
+            <div class="meetup">
+              <div class="meetup__time">
+                <p class="meetup__time-clock">
+                  8:30 AM
+                </p>
+              </div>
+              <div class="meetup__details">
+                <div class="meetup__posted">
+                  <span>
+                    <span class="meetup__posted-name">Blaise Bakundukize</span>
+                    <span class="meetup__posted-time">3 days ago</span>
+                  </span>
+                </div>
+                <div class="meetup__title">
+                  <h3 class="heading-tertiary">Andela developer day</h3>
+                </div>
+                <div class="meetup__opinion">
+                  <div class="meetup__questions">
+                    <svg class="meetup__opinion-icon">
+                      <use xlink:href="../../assets/icons/sprite.svg#icon-message"></use>
+                    </svg>
+                    <span class="meetup__opinion-label">15 Questions</span>
+                  </div>
+                  <div class="meetup__comments">
+                    <svg class="meetup__opinion-icon">
+                      <use xlink:href="../../assets/icons/sprite.svg#icon-message"></use>
+                    </svg>
+                    <span class="meetup__opinion-label">20 Comments</span>
+                  </div>
+                  <div class="meetup__member">
+                    <svg class="meetup__opinion-icon">
+                      <use xlink:href="../../assets/icons/sprite.svg#icon-users"></use>
+                    </svg>
+                    <span class="meetup__opinion-label">100 Going</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </main>
+
+
+    </div>
+  </div>
+</body>
+
+</html>
