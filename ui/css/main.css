@@ -7,7 +7,7 @@
 --color-primary-light: #ff3366;
 --color-primary-dark: #ba265d;
 
---color-green-light-1: #4caf50;
+--color-green-light-1: #3CB371;
 
 --color-grey-light-1 : #f4f4f4;
 --color-grey-light-2: #f2f2f2;
@@ -70,6 +70,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
+  z-index: 100;
 }
 
 .container {
@@ -385,8 +386,18 @@ padding: 0 1rem;
 
 .btn--blue {
   background-color: var(--color-blue-dark-1);
-  color: var(--color-white);
+  color: var(--color-grey-light-6);
   font-weight: 700;
+}
+
+.btn--green {
+  background-color: var(--color-green-light-1);
+  color: var(--color-grey-light-6);
+}
+
+.btn--white {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-grey-dark-2);
 }
 
 .btn-text:link, .btn-text:visited {
@@ -441,4 +452,8 @@ padding: 0 1rem;
 .box-container {
   background-color: var(--color-white);
   border-radius: .4rem;
+}
+
+.box-padding {
+  padding: 2rem 1rem;
 }

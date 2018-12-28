@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>All meetups</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" media="screen" href="../../css/main.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="../../css/meetup.css">
+</head>
+
+<body>
+  <header class="header">
+    <img src="../../assets/img/logo.png" alt="" class="logo">
+    <form action="#" class="search">
+      <input type="text" class="search__input" placeholder="Search meetups">
+      <button class="search__btn">
+        <svg class="search__icon">
+          <use xlink:href="../../assets/icons/sprite.svg#icon-magnifying-glass"></use>
+        </svg>
+      </button>
+    </form>
+
+    <nav class="header-nav">
+      <ul class="main-nav">
+        <li class="main-nav__item">
+          <a href="#" class="main-nav__link">All meetups</a>
+        </li>
+        <li class="main-nav__item">
+          <a href="#" class="main-nav__link">My profile</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="user-nav">
+      <div class="user-nav__icon-box">
+        <svg class="user-nav__icon">
+          <use xlink:href="../../assets/icons/sprite.svg#icon-chat"></use>
+        </svg>
+        <span class="user-nav__notification">2</span>
+      </div>
+      <div class="user-nav__icon-box">
+        <svg class="user-nav__icon">
+          <use xlink:href="../../assets/icons/sprite.svg#icon-bell"></use>
+        </svg>
+        <span class="user-nav__notification">10</span>
+      </div>
+      <div class="user-nav__user">
+        <figure class="user-nav__profile-photo">
+          <img src="../../upload/img/user.jpg" alt="User photo" class="user-nav__user-photo">
+        </figure>
+        <!-- <span class="user-nav__user-name">Blezobakundukize</span> -->
+        <svg class="user-nav__icon-profile">
+          <use xlink:href="../../assets/icons/sprite.svg#icon-chevron-thin-down"></use>
+        </svg>
+      </div>
+    </div>
+    <!-- <div class="profile">
+      <ul class="profile-nav">
+        <li class="profile-nav__item">
+          <a href="#" class="profile-nav__link">
+            My profile
+          </a>
+        </li>
+        <li class="profile-nav__item">
+          <a href="#" class="profile-nav__link">
+            Reset password
+          </a>
+        </li>
+        <li class="profile-nav__item">
+          <a href="#" class="profile-nav__link">
+            Logout
+          </a>
+        </li>
+      </ul>
+    </div> -->
+  </header>
+  <div class="meetup-banner margin-bottom-medium">
+    <div class="container">
+      <div class="meetup-banner__details">
+        <div class="meetup-banner__title">
+          <div class="meetup-banner__date">
+            <p class="text text--grey meetup-banner__date">
+              Manday, January 14, 2019 <span class="meetup-banner__time">8:30 AM</span>
+            </p>
+          </div>
+          <div class="meetup__title">
+            <h2 class="heading-secondary text--uppercase">Andela Bootcamp starting day</h2>
+          </div>
+        </div>
+        <div class="meetup-banner__location text--small">
+          <span class="text--grey">
+            Hosted by &nbsp;
+            <span class="text--bold">Blaise Bakundukize</span>
+          </span>
+          <span class="text--grey">
+            From &nbsp;
+            <span class="text--bold">Andela</span>
+          </span>
+          <span class="text--grey">
+            Location &nbsp;
+            <span class=" text--bold">Rwanda/Kigali/Nyarugenge</span>
+          </span>
+        </div>
+      </div>
+      <div class="event-status">
+        <p class="text text--bold">Are you going?</p>
+        <div class="event-status__indicator">
+          <button class="btn btn--white event-status__indicator-status indicator-yes">Yes</button>
+          <button class="btn btn--ghost event-status__indicator-status indicator-no">No</button>
+          <button class="btn btn--ghost event-status__indicator-status indicator-maybe">Maybe</button>
+        </div>
+        <div class="meetup__opinion">
+          <div class="meetup__questions">
+            <svg class="meetup__opinion-icon">
+              <use xlink:href="../../assets/icons/sprite.svg#icon-message"></use>
+            </svg>
+            <span class="meetup__opinion-label">15 Questions</span>
+          </div>
+          <div class="meetup__comments">
+            <svg class="meetup__opinion-icon">
+              <use xlink:href="../../assets/icons/sprite.svg#icon-message"></use>
+            </svg>
+            <span class="meetup__opinion-label">20 Comments</span>
+          </div>
+          <div class="meetup__member">
+            <svg class="meetup__opinion-icon">
+              <use xlink:href="../../assets/icons/sprite.svg#icon-users"></use>
+            </svg>
+            <span class="meetup__opinion-label">100 Going</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="content">
+      <div class="meetup-details">
+        <img src="../../upload/img/andela.jpg" alt="Meetup Image" class="meetup-details__img margin-bottom-small">
+        <h3 class="heading-tertiary">Details</h3>
+        <p class="meetup-details__info text text--line-height-big">
+          Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+          exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
+          in
+          voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+          sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+        <div class="meetup-details__gallery margin-top-small margin-bottom-small">
+          <h3 class="heading-tertiary margin-bottom-small">Gallery</h3>
+        </div>
+      </div>
+      <div class="right-sidebar">
+        <div class="box-container box-padding meetup-details__happening">
+          <div class="meetup-details__time flex--row margin-bottom-medium">
+            <div class="meetup-details_times-container flex--row">
+              <svg class="meetup-details__happening-icon">
+                <use xlink:href="../../assets/icons/sprite.svg#icon-clock"></use>
+              </svg>
+              <span class="flex--column">
+                <span class="meetup-details__time-date text--small">Wednesday, December 26, 2018</span>
+                <span class="meetup-details__time-clock text--small text--grey">8:30 AM to 5:30 PM</span>
+              </span>
+            </div>
+          </div>
+          <div class="meetup-details__location flex--row">
+            <svg class="meetup-details__happening-icon">
+              <use xlink:href="../../assets/icons/sprite.svg#icon-location-pin"></use>
+            </svg>
+            <span class="flex--column">
+              <span class="text--small meetup-details__need-location">Need a location</span>
+              <span class="text--grey">Rwanda</span>
+              <span class="text--grey">Kigali</span>
+              <span class="text--grey">Telecom House</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
