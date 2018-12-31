@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Meetup Details</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" media="screen" href="../../css/main.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="../../css/meetup.css">
+</head>
+
+<body>
+  <header class="header">
+    <img src="../../assets/img/logo.png" alt="" class="logo">
+    <form action="#" class="search">
+      <input type="text" class="search__input" placeholder="Search meetups">
+      <button class="search__btn">
+        <svg class="search__icon">
+          <use xlink:href="../../assets/icons/sprite.svg#icon-magnifying-glass"></use>
+        </svg>
+      </button>
+    </form>
+
+    <nav class="header-nav">
+      <ul class="main-nav">
+        <li class="main-nav__item">
+          <a href="../meetup/meetups.html" class="main-nav__link">All meetups</a>
+        </li>
+        <li class="main-nav__item">
+          <a href="../user/profile.html" class="main-nav__link current">My profile</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="user-nav">
+      <div class="user-nav__icon-box">
+        <svg class="user-nav__icon">
+          <use xlink:href="../../assets/icons/sprite.svg#icon-chat"></use>
+        </svg>
+        <span class="user-nav__notification">2</span>
+      </div>
+      <div class="user-nav__icon-box">
+        <svg class="user-nav__icon">
+          <use xlink:href="../../assets/icons/sprite.svg#icon-bell"></use>
+        </svg>
+        <span class="user-nav__notification">10</span>
+      </div>
+      <div class="user-nav__user">
+        <figure class="user-nav__profile-photo">
+          <img src="../../upload/img/user.jpg" alt="User photo" class="user-nav__user-photo">
+        </figure>
+        <!-- <span class="user-nav__user-name">Blezobakundukize</span> -->
+        <svg class="user-nav__icon-profile">
+          <use xlink:href="../../assets/icons/sprite.svg#icon-chevron-thin-down"></use>
+        </svg>
+      </div>
+    </div>
+    <!-- <div class="profile">
+      <ul class="profile-nav">
+        <li class="profile-nav__item">
+          <a href="#" class="profile-nav__link">
+            My profile
+          </a>
+        </li>
+        <li class="profile-nav__item">
+          <a href="#" class="profile-nav__link">
+            Reset password
+          </a>
+        </li>
+        <li class="profile-nav__item">
+          <a href="#" class="profile-nav__link">
+            Logout
+          </a>
+        </li>
+      </ul>
+    </div> -->
+  </header>
+  <div class="container">
+
+    <nav class="profile-nav">
+      <ul class="profile-nav boxes">
+        <li class="profile-nav__item">
+          <a href="./profile.html" class="profile-nav__link">
+            <div class="box box--current">
+              <h4 class="heading-quaternary">My Questions</h4>
+              <p class="text--medium text--bold">5</p>
+            </div>
+          </a>
+        </li>
+        <li class="profile-nav__item">
+          <a href="" class="profile-nav__link">
+            <div class="box">
+              <h4 class="heading-quaternary">Questions I have commented on</h4>
+              <p class="text--medium text--bold">5</p>
+            </div>
+          </a>
+        </li>
+        <li class="profile-nav__item">
+          <a href="" class="profile-nav__link">
+            <div class="box">
+              <h4 class="heading-quaternary">Top Meetup's Questions I'm going to</h4>
+              <p class="text--medium text--bold">5</p>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</body>
+
+</html>
