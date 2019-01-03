@@ -6,5 +6,6 @@ const router = Router();
 router.get('/', MeetupController.getMeetups);
 router.get('/upcoming', MeetupController.getMeetups);
 router.get('/:meetupId', MeetupController.getMeetupById);
+router.post('/:meetupId/rsvps', MeetupController.replyToAttend);
 
 module.exports = router;

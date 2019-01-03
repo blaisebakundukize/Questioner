@@ -1,6 +1,5 @@
 import meetups from '../database/meetups';
 // import tags from '../database/tags';
-import rsvps, { rsvpSchema } from '../database/rsvps';
 
 /**
  * This model represents meetup
