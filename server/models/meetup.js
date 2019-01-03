@@ -1,6 +1,6 @@
 import meetups from '../database/meetups';
 // import tags from '../database/tags';
-// import { rsvps, rsvpSchema } from '../database/rsvps';
+import rsvps, { rsvpSchema } from '../database/rsvps';
 
 /**
  * This model represents meetup
@@ -21,9 +21,7 @@ class Meetup {
    * @returns {Array} An array of upcoming meetups
    */
   static getUpcoming() {
-    console.log(typeof Date.now());
     const upcomings = meetups.filter(meetup => meetup.happeningOn.getTime() > Date.now());
-    console.log(upcomings);
     return upcomings;
   }
 

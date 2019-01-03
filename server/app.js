@@ -7,8 +7,8 @@ import meetups from './api/v1/routes/meetups';
 const app = express();
 
 // Body parser middleware
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // Use routes
 app.use('/api/v1/meetups', meetups);
