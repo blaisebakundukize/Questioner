@@ -13,6 +13,14 @@ app.use(bodyParser.json());
 // Use routes
 app.use('/api/v1/meetups', meetups);
 
+// Handler for 404 - Resource not found
+app.use((req, res) => {
+  res.status(404).send({
+    status: 404,
+    error: 'Resource Not Found'
+  });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.info(`Server has started on port ${PORT}`));
 

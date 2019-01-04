@@ -44,8 +44,8 @@ class MeetupController {
         data
       });
     } else {
-      res.status(204).send({
-        status: 204,
+      res.status(404).send({
+        status: 404,
         error: 'Requested meetup is not exist'
       });
     }

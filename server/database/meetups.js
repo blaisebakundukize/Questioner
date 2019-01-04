@@ -4,8 +4,8 @@ export const meetupSchema = {
   description: null,
   location: null,
   images: null,
-  happeningOn: null,
-  tags: null,
+  happeningOn: undefined,
+  tags: undefined,
   createdBy: undefined,
   createdOn: null,
   updatedOn: null
