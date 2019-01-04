@@ -1,5 +1,4 @@
 import meetups, { meetupSchema } from '../database/meetups';
-// import tags from '../database/tags';
 
 /**
  * This model represents meetup
@@ -36,10 +35,27 @@ class Meetup {
   /**
    * Create a new meetup
    * @param {object} data - An object of properties for creating a meetup
-   * @return {Object} Contains properties of a created meetup
+   * @return {object} An object of created meetup
    */
-  // static create(data) {
-  // }
+  static create(data) {
+    const meetupPropertyKeys = Object.keys(meetupSchema);
+    const meetup = Object.assign({}, meetupSchema);
+    const nextId = meetups[meetups.length - 1].id + 1;
+    meetup.id = nextId;
+    meetupPropertyKeys.forEach((key) => {
+      if (data[key]) {
+        meetup[key] = data[key];
+      }
+
+      if (meetup[key] === undefined) {
+        throw new Error(`${key} is required`);
+      }
+    });
+    // Save post meetup to database
+    meetups.push(meetup);
+
+    return meetup;
+  }
 }
 
 export default Meetup;

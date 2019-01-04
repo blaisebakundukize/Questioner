@@ -1,8 +1,8 @@
 export const meetupSchema = {
   id: undefined,
   topic: undefined,
-  description: null,
-  location: null,
+  description: undefined,
+  location: undefined,
   images: null,
   happeningOn: undefined,
   tags: undefined,

@@ -52,6 +52,40 @@ class MeetupController {
   }
 
   /**
+   * Create a meetup
+   * @param {Object} req - request made by the user
+   * @param {Object} res - response to be given to the user
+   * @return {Object} Response
+   */
+  static createMeetup(req, res) {
+    const data = req.body;
+    console.log(data);
+    const tagsName = data.tags;
+    try {
+      const tagsId = Tag.getTagsIdByNames(data.tags);
+      // Replace tag names by their corresponding ids
+      data.tags = tagsId;
+
+      const meetupSaved = Meetup.create(data);
+      console.log(meetupSaved);
+      res.status(201).send({
+        status: 201,
+        data: [{
+          topic: meetupSaved.topic,
+          location: meetupSaved.location,
+          happeningOn: new Date(meetupSaved.happeningOn),
+          tags: tagsName
+        }]
+      });
+    } catch (e) {
+      res.status(400).send({
+        status: 400,
+        error: e.message
+      });
+    }
+  }
+
+  /**
    * @param {Object} meetup - Contains data for a meetup
    * @returns {Object} meetupDataSelected - Not all meetup data and tags are by their names
    */

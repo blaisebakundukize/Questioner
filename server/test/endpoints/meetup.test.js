@@ -8,7 +8,7 @@ chai.should();
 
 describe('Questioner API Meetup Endpoints Tests', () => {
   // Test Invalid path
-  describe('/GET INVALID_PATH', () => {
+  describe('GET/ INVALID_PATH', () => {
     it('should return not found', (done) => {
       chai.request(app)
         .get('/INVALID_PATH')
@@ -77,12 +77,66 @@ describe('Questioner API Meetup Endpoints Tests', () => {
           });
       });
     });
+
+    // Create a meetup
+    describe('POST/ Create Meetup', () => {
+      const meetup = {
+        topic: 'Andela learning communinity meetup',
+        description: 'description',
+        location: 'location',
+        images: ['image1', 'image2', 'image3'],
+        happeningOn: '2019-03-29 10:00',
+        tags: ['technology', 'programming'],
+        createdBy: 1
+      };
+
+      // Should create a meetup
+      it('Should return created meetup', (done) => {
+        chai.request(app)
+          .post('/api/v1/meetups')
+          .send(meetup)
+          .end((err, res) => {
+            res.should.have.status(201);
+            res.body.status.should.equal(201);
+            res.body.data[0].should.be.an('object');
+            done();
+          });
+      });
+
+      // Create meetup, Should return error tag not found
+      it('Create meetup, should return error undefined tag', (done) => {
+        meetup.tags[0] = 'INVALID_TAG_NAME';
+        chai.request(app)
+          .post('/api/v1/meetups')
+          .send(meetup)
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.status.should.equal(400);
+            res.body.should.have.property('error');
+            done();
+          });
+      });
+
+      // Create meetup, Should return error - property is required
+      it('Create meetup, should return error property is required', (done) => {
+        meetup.topic = undefined;
+        chai.request(app)
+          .post('/api/v1/meetups')
+          .send(meetup)
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.status.should.equal(400);
+            res.body.should.have.property('error');
+            done();
+          });
+      });
+    });
   });
 
   // Test meetups' RSVP
   describe('RSVP', () => {
     // Post Rsvp
-    describe('/POST Rsvp', () => {
+    describe('POST/ Rsvp', () => {
       const rsvp = {
         user: 2,
         response: 'yes'
@@ -115,7 +169,7 @@ describe('Questioner API Meetup Endpoints Tests', () => {
       });
 
       // should return error for undefined property
-      it('should update previous user rsvp of the same meetup', (done) => {
+      it('should return error for undefined property', (done) => {
         rsvp.response = undefined;
         rsvp.user = 1;
         chai.request(app)
