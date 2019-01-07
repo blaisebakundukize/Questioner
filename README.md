@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/blaisebakundukize/Questioner.svg?branch=develop)](https://travis-ci.com/blaisebakundukize/Questioner)
+[![Build Status](https://travis-ci.com/blaisebakundukize/Questioner.svg?branch=develop)](https://travis-ci.com/blaisebakundukize/Questioner) [![Coverage Status](https://coveralls.io/repos/github/blaisebakundukize/Questioner/badge.svg?branch=develop)](https://coveralls.io/github/blaisebakundukize/Questioner?branch=develop)
 
 
 # Questioner
