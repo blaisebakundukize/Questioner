@@ -4,7 +4,7 @@
   "description": "Crowd-source questions for a meetup",
   "main": "app.js",
   "scripts": {
-    "test": "mocha --require babel-register server/test/**/*.test.js --exit",
+    "test": "mocha --require babel-polyfill --require babel-register server/test/**/*.test.js --exit",
     "start": "nodemon --exec babel-node server/app.js"
   },
   "repository": {
@@ -20,6 +20,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-eslint": "^10.0.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
@@ -30,6 +31,7 @@
     "nodemon": "^1.18.9"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.4"
   }

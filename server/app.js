@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 
 // load routes
 import meetups from './api/v1/routes/meetups';
+import questions from './api/v1/routes/questions';
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(bodyParser.json());
 
 // Use routes
 app.use('/api/v1/meetups', meetups);
+app.use('/api/v1/questions', questions);
 
 // Handler for 404 - Resource not found
 app.use((req, res) => {

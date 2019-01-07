@@ -42,19 +42,21 @@ class Meetup {
     const meetup = Object.assign({}, meetupSchema);
     const nextId = meetups[meetups.length - 1].id + 1;
     meetup.id = nextId;
-    meetupPropertyKeys.forEach((key) => {
-      if (data[key]) {
-        meetup[key] = data[key];
-      }
+    return new Promise((resolve, reject) => {
+      meetupPropertyKeys.forEach((key) => {
+        if (data[key]) {
+          meetup[key] = data[key];
+        }
 
-      if (meetup[key] === undefined) {
-        throw new Error(`${key} is required`);
-      }
+        if (meetup[key] === undefined) {
+          reject(new Error(`${key} is required`));
+        }
+      });
+      // Save post meetup to database
+      meetups.push(meetup);
+      resolve(meetup);
     });
-    // Save post meetup to database
-    meetups.push(meetup);
-
-    return meetup;
+    // return meetup;
   }
 }
 

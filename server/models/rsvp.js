@@ -1,7 +1,7 @@
 import rsvps, { rsvpSchema } from '../database/rsvps';
 
 /**
- * This model represents meetup
+ * This model represents meetup's rsvp
  * @class
  * @exports
  */

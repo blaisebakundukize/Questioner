@@ -91,17 +91,15 @@ describe('Questioner API Meetup Endpoints Tests', () => {
       };
 
       // Should create a meetup
-      it('Should return created meetup', (done) => {
-        chai.request(app)
-          .post('/api/v1/meetups')
-          .send(meetup)
-          .end((err, res) => {
-            res.should.have.status(201);
-            res.body.status.should.equal(201);
-            res.body.data[0].should.be.an('object');
-            done();
-          });
+      it('Should return created meetup', async () => {
+        const res = await chai.request(app).post('/api/v1/meetups').send(meetup);
+        // .end((err, res) => {
+        res.should.have.status(201);
+        res.body.status.should.equal(201);
+        res.body.data[0].should.be.an('object');
+        // done();
       });
+
 
       // Create meetup, Should return error tag not found
       it('Create meetup, should return error undefined tag', (done) => {

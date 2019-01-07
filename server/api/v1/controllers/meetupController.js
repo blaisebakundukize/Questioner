@@ -57,7 +57,7 @@ class MeetupController {
    * @param {Object} res - response to be given to the user
    * @return {Object} Response
    */
-  static createMeetup(req, res) {
+  static async createMeetup(req, res) {
     const data = req.body;
     console.log(data);
     const tagsName = data.tags;
@@ -66,7 +66,7 @@ class MeetupController {
       // Replace tag names by their corresponding ids
       data.tags = tagsId;
 
-      const meetupSaved = Meetup.create(data);
+      const meetupSaved = await Meetup.create(data);
       console.log(meetupSaved);
       res.status(201).send({
         status: 201,
