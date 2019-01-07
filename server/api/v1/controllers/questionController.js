@@ -45,7 +45,6 @@ class QuestionController {
    * @return {Object} Response
    */
   static async voteQuestion(req, res) {
-    console.log(req.body);
     const IsVoteType = req.path.toLowerCase().split('/').find(p => p === 'upvote');
     const voteType = IsVoteType === undefined ? 'down' : 'up';
     const data = req.body;

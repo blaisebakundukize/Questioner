@@ -69,6 +69,7 @@ class Question {
     return new Promise((resolve) => {
       if (voter.voteType !== voteType) {
         voters[voteIndex] = voteType;
+        console.log(voteType);
         if (voteType === 'up') {
           questions[questionIndex].votes += 2;
         } else {
@@ -94,14 +95,11 @@ class Question {
     voter.voteType = data.voteType;
     return new Promise((resolve) => {
       voters.push(voter);
-      // console.log(`voter:::: ${voters}`);
-      // console.log(`quetion before:::: ${questions[questionIndex].votes}`);
       if (data.voteType === 'up') {
         questions[questionIndex].votes += 1;
       } else {
-        questions[questionIndex].votes += 1;
+        questions[questionIndex].votes -= 1;
       }
-      // console.log(`quetion After:::: ${questions[questionIndex].votes}`);
       resolve(questions[questionIndex].votes);
     });
   }
