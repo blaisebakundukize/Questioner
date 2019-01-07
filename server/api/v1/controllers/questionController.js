@@ -37,6 +37,44 @@ class QuestionController {
       });
     }
   }
+
+  /**
+   * Vote questions
+   * @param {Object} req - Request made by the user
+   * @param {Object} res - Response to the user
+   * @return {Object} Response
+   */
+  static async voteQuestion(req, res) {
+    console.log(req.body);
+    const IsVoteType = req.path.toLowerCase().split('/').find(p => p === 'upvote');
+    const voteType = IsVoteType === undefined ? 'down' : 'up';
+    const data = req.body;
+    data.voteType = voteType;
+    try {
+      const question = await Question.getById(data.question);
+      const voter = await Question.getUserVote(data.user, data.question);
+      let votes;
+      if (voter !== undefined) {
+        votes = await Question.updateUserVote(voter, voteType);
+      } else {
+        votes = await Question.voteQuestion(data);
+      }
+      return res.status(200).send({
+        status: 200,
+        data: [{
+          meetup: question.meetup,
+          title: question.title,
+          body: question.body,
+          votes
+        }]
+      });
+    } catch (err) {
+      return res.status(400).send({
+        status: 400,
+        error: err.message
+      });
+    }
+  }
 }
 
 export default QuestionController;

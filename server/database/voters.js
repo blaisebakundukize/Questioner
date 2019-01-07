@@ -1,3 +1,12 @@
+export const voterSchema = {
+  id: undefined,
+  user: undefined,
+  question: undefined,
+  voteType: undefined,
+  createdOn: new Date(),
+  updatedOn: new Date()
+};
+
 const voters = [
   {
     id: 1,
