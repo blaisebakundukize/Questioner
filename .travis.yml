@@ -4,4 +4,8 @@ node_js:
 cache:
   directories:
     - "node_modules"
+env:
+  global:
+  - CC_TEST_REPORTER_ID=15a88abf8bc6d38e222bbb8d9a78bbf72538af0b853b949ff142d97e5ac2201b
+  - NODE_ENV=test
 after_success: npm run coverage
