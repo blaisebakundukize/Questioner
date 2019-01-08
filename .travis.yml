@@ -8,6 +8,8 @@ env:
   global:
   - CC_TEST_REPORTER_ID=15a88abf8bc6d38e222bbb8d9a78bbf72538af0b853b949ff142d97e5ac2201b
 before_script:
+  - npm install
+  - npm install -g nyc
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
