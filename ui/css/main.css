@@ -86,7 +86,8 @@ body {
 }
 
 .right-sidebar {
-  margin-left: 4rem;
+  flex: 0 0 27%;
+  margin-left: 3rem;
 }
 
 .logo {
@@ -276,6 +277,7 @@ padding: 0 1rem;
 .margin-top-small { margin-top: 1.5rem !important; }
 .margin-top-big { margin-top: 6rem !important; }
 .margin-top-huge { margin-top: 8rem !important; }
+.margin-top-header-fixed { margin-top: 7rem; }
 
 .center-text { text-align: center !important;}
 
