@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
   <link rel="stylesheet" type="text/css" media="screen" href="../../css/main.css">
   <link rel="stylesheet" type="text/css" media="screen" href="../../css/meetup.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="../../css/profile.css">
 </head>
 
 <body>
@@ -77,36 +78,148 @@
       </ul>
     </div> -->
   </header>
-  <div class="container">
-
-    <nav class="profile-nav">
-      <ul class="profile-nav boxes">
-        <li class="profile-nav__item">
-          <a href="./profile.html" class="profile-nav__link">
-            <div class="box box--current">
-              <h4 class="heading-quaternary">My Questions</h4>
-              <p class="text--medium text--bold">5</p>
+  <div class="container margin-top-huge">
+    <section class="profile-content margin-bottom-big">
+      <div class="boxes center-text text--line-height-big">
+        <div class="box box--current js--my-questions">
+          <h4 class="heading-quaternary">My Questions</h4>
+          <p class="text--medium text--bold">5</p>
+        </div>
+        <div class="box js--questions-comments">
+          <h4 class="heading-quaternary">Questions I have commented on</h4>
+          <p class="text--medium text--bold">5</p>
+        </div>
+        <div class="box js--top-questions">
+          <h4 class="heading-quaternary">Top Meetup's Questions I'm going to</h4>
+          <p class="text--medium text--bold">5</p>
+        </div>
+      </div>
+    </section>
+    <div class="content">
+      <main class="main-content">
+        <section class="profile-loaded">
+          <div class="question-box flex--row margin-bottom-medium">
+            <div class="question-box__votes">
+              <svg class="vote-icon">
+                <use xlink:href="../css/icons/sprite.svg#icon-arrow-bold-up"></use>
+              </svg>
+              <span class="votes">3.4k</span>
+              <svg class="vote-icon">
+                <use xlink:href="../css/icons/sprite.svg#icon-arrow-bold-down"></use>
+              </svg>
             </div>
-          </a>
-        </li>
-        <li class="profile-nav__item">
-          <a href="" class="profile-nav__link">
-            <div class="box">
-              <h4 class="heading-quaternary">Questions I have commented on</h4>
-              <p class="text--medium text--bold">5</p>
+            <div class="question-box__main">
+              <div class="question-posted text--small text--grey">
+                <span class="question-posted__by">Blaise Bakundukize</span>
+                <span class="question-posted__on">3 days ago</span>
+              </div>
+              <div class="question-box__title">
+                <p class="text--small">
+                  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat?
+                </p>
+              </div>
+              <div class="question-box__feedback">
+                <div class="question-box__comments flex--row">
+                  <span class="text--btn text--small text--grey">Comment</span>
+                  <div class="question-box__mobile-votes">
+                  </div>
+                </div>
+                <span class="text--small load-more-text">
+                  View 4 comments
+                </span>
+              </div>
             </div>
-          </a>
-        </li>
-        <li class="profile-nav__item">
-          <a href="" class="profile-nav__link">
-            <div class="box">
-              <h4 class="heading-quaternary">Top Meetup's Questions I'm going to</h4>
-              <p class="text--medium text--bold">5</p>
+          </div>
+          <div class="question-box flex--row margin-bottom-medium">
+            <div class="question-box__votes">
+              <svg class="vote-icon">
+                <use xlink:href="../css/icons/sprite.svg#icon-arrow-bold-up"></use>
+              </svg>
+              <span class="votes">3.4k</span>
+              <svg class="vote-icon">
+                <use xlink:href="../css/icons/sprite.svg#icon-arrow-bold-down"></use>
+              </svg>
             </div>
-          </a>
-        </li>
-      </ul>
-    </nav>
+            <div class="question-box__main">
+              <div class="question-posted text--small text--grey">
+                <span class="question-posted__by">Blaise Bakundukize</span>
+                <span class="question-posted__on">3 days ago</span>
+              </div>
+              <div class="question-box__title">
+                <p class="text--small">
+                  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat?
+                </p>
+              </div>
+              <div class="question-box__feedback">
+                <div class="question-box__comments flex--row">
+                  <span class="text--btn text--small text--grey">Comment</span>
+                  <div class="question-box__mobile-votes">
+                  </div>
+                </div>
+                <span class="text--small load-more-text">
+                  View 4 comments
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="question-box flex--row margin-bottom-medium">
+            <div class="question-box__votes">
+              <svg class="vote-icon">
+                <use xlink:href="../css/icons/sprite.svg#icon-arrow-bold-up"></use>
+              </svg>
+              <span class="votes">3.4k</span>
+              <svg class="vote-icon">
+                <use xlink:href="../css/icons/sprite.svg#icon-arrow-bold-down"></use>
+              </svg>
+            </div>
+            <div class="question-box__main">
+              <div class="question-posted text--small text--grey">
+                <span class="question-posted__by">Blaise Bakundukize</span>
+                <span class="question-posted__on">3 days ago</span>
+              </div>
+              <div class="question-box__title">
+                <p class="text--small">
+                  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat?
+                </p>
+              </div>
+              <div class="question-box__feedback">
+                <div class="question-box__comments flex--row">
+                  <span class="text--btn text--small text--grey">Comment</span>
+                  <div class="question-box__mobile-votes">
+                  </div>
+                </div>
+                <span class="text--small load-more-text">
+                  View 4 comments
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <div class="right-sidebar">
+        <div class="box-container flex--column box-profile">
+          <div class="box-profile__image-container">
+            <img src="../../upload/img/user.jpg" alt="User Picture" class="box-profile__image">
+          </div>
+          <div class="flex--column box-profile__content">
+            <span class="box-profile__username margin-bottom-small text--small">blaisebakundukize</span>
+            <span class="box-profile__name-container">
+              <span class="box-profile__name text">Blaise Bakundukize</span>
+              <svg class="user-nav__icon">
+                <use xlink:href="../../assets/icons/sprite.svg#icon-pencil"></use>
+              </svg>
+            </span>
+            <span class="flex--column member-since text--small">
+              <span class="member-since__title text--grey">Member since</span>
+              <span class="member-since__date text--bold">December,12, 2018</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 
