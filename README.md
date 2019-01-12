@@ -20,7 +20,7 @@ Questioner​ helps the meetup organizer prioritize questions to be answered. Ot
 #### Access API
 
 > - Access the API Here: [https://questioner-meetup-app.herokuapp.com/api/v1/]
-> - Fetching all meetups: [https://agile-dusk-15975.herokuapp.com/api/v1/meetups]
+> - Fetching all meetups: [https://questioner-meetup-app.herokuapp.com/api/v1/meetups]
 > - For other roots use json data and ids stated below
 
 For creating a meetup you have to post a json data:
