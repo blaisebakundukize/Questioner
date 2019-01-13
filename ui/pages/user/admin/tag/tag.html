@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Meetup Details</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" media="screen" href="../../../../css/main.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="../../../../css/admin.css">
+  <!-- <link rel="stylesheet" type="text/css" media="screen" href="../../../../css/meetup.css"> -->
+  <!-- <link rel="stylesheet" type="text/css" media="screen" href="../../../../css/profile.css"> -->
+</head>
+
+<body>
+  <header class="header">
+    <img src="../../../../assets/img/logo.png" alt="" class="logo">
+    <form action="#" class="search">
+      <input type="text" class="search__input" placeholder="Search meetups">
+      <button class="search__btn">
+        <svg class="search__icon">
+          <use xlink:href="../../../../assets/icons/sprite.svg#icon-magnifying-glass"></use>
+        </svg>
+      </button>
+    </form>
+
+    <div class="user-nav">
+      <div class="user-nav__icon-box">
+        <svg class="user-nav__icon">
+          <use xlink:href="../../../../assets/icons/sprite.svg#icon-chat"></use>
+        </svg>
+        <span class="user-nav__notification">2</span>
+      </div>
+      <div class="user-nav__icon-box">
+        <svg class="user-nav__icon">
+          <use xlink:href="../../../../assets/icons/sprite.svg#icon-bell"></use>
+        </svg>
+        <span class="user-nav__notification">10</span>
+      </div>
+      <div class="user-nav__user">
+        <figure class="user-nav__profile-photo">
+          <img src="../../../../upload/img/user.jpg" alt="User photo" class="user-nav__user-photo">
+        </figure>
+        <!-- <span class="user-nav__user-name">Blezobakundukize</span> -->
+        <svg class="user-nav__icon-profile">
+          <use xlink:href="../../../../assets/icons/sprite.svg#icon-chevron-thin-down"></use>
+        </svg>
+      </div>
+    </div>
+    <!-- <div class="profile">
+      <ul class="profile-nav">
+        <li class="profile-nav__item">
+          <a href="#" class="profile-nav__link">
+            My profile
+          </a>
+        </li>
+        <li class="profile-nav__item">
+          <a href="#" class="profile-nav__link">
+            Reset password
+          </a>
+        </li>
+        <li class="profile-nav__item">
+          <a href="#" class="profile-nav__link">
+            Logout
+          </a>
+        </li>
+      </ul>
+    </div> -->
+  </header>
+  <div class="container container--admin margin-top-header-fixed">
+    <div class="content">
+      <nav class="sidebar">
+        <ul class="side-nav">
+          <li class="side-nav__item">
+            <a href="#" class="side-nav__link">
+              <svg class="side-nav__icon">
+                <use xlink:href="../../../../assets/icons/sprite.svg#icon-home"></use>
+              </svg>
+              <span>All Meetup</span>
+            </a>
+          </li>
+          <li class="side-nav__item">
+            <a href="#" class="side-nav__link">
+              <svg class="side-nav__icon">
+                <use xlink:href="../../../../assets/icons/sprite.svg#icon-plus"></use>
+              </svg>
+              <span>Create a Meetup</span>
+            </a>
+          </li>
+          <li class="side-nav__item side-na--current">
+            <a href="#" class="side-nav__link">
+              <svg class="side-nav__icon">
+                <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+              </svg>
+              <span>Tags</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <main class="meetup-view">
+        <h1 class="heading-primary margin-top-small center-text">Tags</h1>
+        <div class="tag-view margin-top-small">
+          <div class="flex--row tag-view__header">
+            <span class="tag-view__search-container">
+              <input type="text" class="form__input tag-view__search" name="searchTag" placeholder="Search tag">
+            </span>
+            <span class="flex--column tag-view__create">
+              <button class="btn btn--grey accordion js--btn-accordion">Create Tag</button>
+              <form action="#" class="form-create__tag">
+                <input type="text" class="form__input tag-view__create-input" name="tag" placeholder="Tag name"
+                  required>
+                <button class="btn btn--grey form-create__btn-save-tag">Save</button>
+              </form>
+            </span>
+            <span class="tag-view__delete-tag">
+              <button class="btn btn--grey js--btn-delete-tag">Delete</button>
+            </span>
+          </div>
+          <div class="tag-view__main margin-top-small">
+            <ul class="tag-view__list">
+              <li class="tag-view__item">
+                <span>Technology</span>
+                <svg class="tag-view__icon">
+                  <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                </svg>
+              </li>
+              <li class="tag-view__item">
+                <span>Web Technology</span>
+                <svg class="tag-view__icon">
+                  <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                </svg>
+              </li>
+              <li class="tag-view__item">
+                <span>Mobile Technology</span>
+                <svg class="tag-view__icon">
+                  <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                </svg>
+              </li>
+              <li class="tag-view__item">
+                <span>Artists</span>
+                <svg class="tag-view__icon">
+                  <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                </svg>
+              </li>
+              <li class="tag-view__item">
+                <span>Travel</span>
+                <svg class="tag-view__icon">
+                  <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                </svg>
+              </li>
+              <li class="tag-view__item">
+                <span>Arts</span>
+                <svg class="tag-view__icon">
+                  <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                </svg>
+              </li>
+              <li class="tag-view__item">
+                <span>Crafs</span>
+                <svg class="tag-view__icon">
+                  <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                </svg>
+              </li>
+              <li class="tag-view__item">
+                <span>New Technology</span>
+                <svg class="tag-view__icon">
+                  <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                </svg>
+              </li>
+              <li class="tag-view__item">
+                <span>Fitness</span>
+                <svg class="tag-view__icon">
+                  <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                </svg>
+              </li>
+              <li class="tag-view__item">
+                <span>Music</span>
+                <svg class="tag-view__icon">
+                  <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                </svg>
+              </li>
+              <div class="tag-view__main">
+                <ul class="tag-view__list">
+                  <li class="tag-view__item">
+                    <span>Theater</span>
+                    <svg class="tag-view__icon">
+                      <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                    </svg>
+                  </li>
+                  <li class="tag-view__item">
+                    <span>Online Marketing</span>
+                    <svg class="tag-view__icon">
+                      <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                    </svg>
+                  </li>
+                  <li class="tag-view__item">
+                    <span>Culture</span>
+                    <svg class="tag-view__icon">
+                      <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                    </svg>
+                  </li>
+                  <li class="tag-view__item">
+                    <span>Sports and Recreation</span>
+                    <svg class="tag-view__icon">
+                      <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                    </svg>
+                  </li>
+                  <li class="tag-view__item">
+                    <span>Dining Out</span>
+                    <svg class="tag-view__icon">
+                      <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                    </svg>
+                  </li>
+                  <li class="tag-view__item">
+                    <span>Learning</span>
+                    <svg class="tag-view__icon">
+                      <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                    </svg>
+                  </li>
+                  <li class="tag-view__item">
+                    <span>Film</span>
+                    <svg class="tag-view__icon">
+                      <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                    </svg>
+                  </li>
+                  <li class="tag-view__item">
+                    <span>Self-improvement</span>
+                    <svg class="tag-view__icon">
+                      <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                    </svg>
+                  </li>
+                  <li class="tag-view__item">
+                    <span>Concerts</span>
+                    <svg class="tag-view__icon">
+                      <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                    </svg>
+                  </li>
+                  <li class="tag-view__item">
+                    <span>Startup businesses</span>
+                    <svg class="tag-view__icon">
+                      <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                    </svg>
+                  </li>
+                  <li class="tag-view__item">
+                    <span>Web Development</span>
+                    <svg class="tag-view__icon">
+                      <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                    </svg>
+                  </li>
+                  <li class="tag-view__item">
+                    <span>Knowledge Sharing</span>
+                    <svg class="tag-view__icon">
+                      <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                    </svg>
+                  </li>
+                  <li class="tag-view__item">
+                    <span>Book Swap</span>
+                    <svg class="tag-view__icon">
+                      <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                    </svg>
+                  </li>
+                  <li class="tag-view__item">
+                    <span>Healthy Living</span>
+                    <svg class="tag-view__icon">
+                      <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                    </svg>
+                  </li>
+                  <li class="tag-view__item">
+                    <span>Dancing</span>
+                    <svg class="tag-view__icon">
+                      <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                    </svg>
+                  </li>
+                  <li class="tag-view__item">
+                    <span>Musicians</span>
+                    <svg class="tag-view__icon">
+                      <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                    </svg>
+                  </li>
+                  <li class="tag-view__item">
+                    <span>Novel Writing</span>
+                    <svg class="tag-view__icon">
+                      <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                    </svg>
+                  </li>
+                  <li class="tag-view__item">
+                    <span>New Technology</span>
+                    <svg class="tag-view__icon">
+                      <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                    </svg>
+                  </li>
+                  <li class="tag-view__item">
+                    <span>Singing</span>
+                    <svg class="tag-view__icon">
+                      <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                    </svg>
+                  </li>
+                  <li class="tag-view__item">
+                    <span>Reading Novel</span>
+                    <svg class="tag-view__icon">
+                      <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                    </svg>
+                  </li>
+                </ul>
+              </div>
+          </div>
+      </main>
+    </div>
+  </div>
+  <script src="../../../../js/admin.js"></script>
+</body>
+
+</html>

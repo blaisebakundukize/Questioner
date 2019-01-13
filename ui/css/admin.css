@@ -1,0 +1,127 @@
+.container--admin {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.sidebar {
+  background-color: var(--color-grey-dark-1);
+  flex: 0 0 20%;
+  display: flex;
+  height: calc(100vh - 7rem);
+}
+
+.side-nav {
+  font-size: 1.5rem;
+  list-style: none;
+  margin-top: 3.5rem;
+}
+
+.side-nav__link:link, .side-nav__link:visited {
+  color: var(--color-grey-light-1);
+  text-decoration: none;
+  padding: 1.5rem 2.5rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+}
+
+.side-nav__item:hover, .side-na--current {
+  background-color: var(--color-primary);
+}
+
+.side-nav__icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  margin-right: 2rem;
+  fill: currentColor;
+}
+
+.tag-view {
+  padding-left: 3rem;
+}
+
+.tag-view__list {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.tag-view__item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid var(--color-grey-light-4);
+  padding: .5rem 1rem;
+  border-radius: .4rem;
+  font-size: 1.6rem;
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: all .3s;
+  margin: .5rem;
+}
+
+.tag-view__icon {
+  width: 2rem;
+  height: 2rem;
+  margin-left: 2rem;
+  fill: currentColor;
+}
+
+.tag-view__item:hover, .tag-view__item:active {
+  border: 1px solid var(--color-primary-dark);
+  color: var(--color-primary-dark);
+}
+
+.tag-view__search-container {
+  flex-grow: 1;
+}
+
+.tag-view__search{
+  background-color: var(--color-white);
+}
+
+.tag-view__create {
+  width: 30%;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.accordion {
+  flex: 1;
+  border-radius: 0;
+  align-items: center;
+}
+
+.form-create__tag {
+  /* border-radius: 3rem; */
+  margin: 1rem;
+  display: none;
+}
+
+.tag-view__delete-tag {
+  flex-grow: 1;
+}
+
+.tag-view__search {
+  padding: .8rem 1.5rem;
+}
+
+.tag-view__header {
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1rem;
+  padding-bottom: 2rem;
+  border-bottom: var(--line);
+}
+
+.tag-view__header > *:not(:last-child){
+  margin-right: 2rem;
+}
+
+.tag-view__create-input, .tag-view__search {
+  border: 1px solid var(--color-grey-light-4);
+  border-radius: .4rem;
+}
+
+.form-create__btn-save-tag {
+  margin-top: 1rem;
+}
