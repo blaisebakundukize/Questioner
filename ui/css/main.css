@@ -141,8 +141,8 @@ padding: 0 1rem;
 
 .search__input::-webkit-input-placeholder {
   font-size: 1.5rem;
-  font-weight: 100;
-  color: var(--color-grey-dark-2);
+  font-weight: 300;
+  color: var(--color-grey-dark-1);
   text-transform: capitalize;
 }
 
@@ -414,6 +414,15 @@ padding: 0 1rem;
 
 .btn-text:hover, .btn-text:active {
   border-bottom: 1px solid var(--color-blue-dark-1);
+}
+
+.btn--grey {
+  background-color: #ddd;
+  color: #1a1a1a;
+}
+
+.btn--grey:hover, .active {
+  background-color: var(--color-grey-dark-2);
 }
 
 /*---------form---------*/
