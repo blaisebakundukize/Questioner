@@ -468,3 +468,21 @@ padding: 0 1rem;
 .box-padding {
   padding: 2rem 1rem;
 }
+
+.footer {
+  width: 100%;
+  height: 3rem;
+  bottom: 0;
+  background-color: var(--color-grey-dark-1);
+}
+
+.footer p {
+  line-height: 3rem;
+  letter-spacing: .3rem;
+  font-weight: 300;
+}
+
+.footer__app-name {
+  color: var(--color-primary-dark);
+  font-style: italic;
+}

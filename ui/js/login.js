@@ -22,9 +22,9 @@ const Controller = (function (UICrtl) {
     btnSubmitLogin.addEventListener('click', (event) => {
       const username = inputLoginUsername.value;
       const password = inputLoginPassword.value;
-      console.log('blaise')
       if (username === 'admin' && password === 'admin') {
-        window.location.href = "./pages/admin/index.html";
+        window.location.href = "../pages/user/admin/meetup/meetups.html";
+        console.log('blaise')
       } else {
         window.location.href = "./pages/meetup/meetups.html";
       }
