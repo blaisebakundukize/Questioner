@@ -255,3 +255,20 @@
   height: 2rem;
   fill: var(--color-grey-dark-3);
 }
+
+.meetup-tags__list {
+  list-style: none;
+}
+
+.meetup-tags__item {
+  background-color: var(--color-grey-light-5);
+  margin-right: 2rem;
+  padding: .5rem 1rem;
+  font-size: var(--default-font-size);
+  font-style: italic;
+  cursor: pointer;
+}
+
+.meetup-tags__item:hover {
+  background-color: var(--color-grey-dark-3);
+}
