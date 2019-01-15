@@ -11,10 +11,14 @@
 
 .credential {
   flex: 1;
-  padding-left: 4rem;
+  /* padding-left: 4rem; */
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.credential__content {
+  margin: auto;
 }
 
 .credential p span {
@@ -24,6 +28,7 @@
 
 .credential__form {
   width: fit-content;
+  /* background-color: red; */
 }
 
 .credential__login {
