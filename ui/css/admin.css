@@ -125,3 +125,47 @@
 .form-create__btn-save-tag {
   margin-top: 1rem;
 }
+
+/*----------Meetups on Admin Dashboard------------*/
+.admin-meetups {
+  flex: 1;
+  padding: 2rem;
+}
+
+.meetups__admin {
+  flex-flow: row wrap;
+  margin: auto;
+}
+
+.meetup__admin-dashboard {
+  width: 48%;
+  height: 10rem;
+}
+
+.meetup__details-admin {
+  justify-content: space-between;
+}
+
+.meetup__modify {
+  justify-content: space-between;
+}
+
+.meetup__modify-container {
+  align-items: center;
+}
+
+.meetup__modify-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: .5rem;
+  fill: currentColor;
+  cursor: pointer;
+}
+
+.meetup__delete-icon:hover {
+  fill: var(--color-primary-dark);
+}
+
+.meetup__edit-icon:hover {
+  fill: var(--color-green-light-1);
+} 
