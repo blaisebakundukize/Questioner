@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Meetup Details</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" media="screen" href="../../../../css/main.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="../../../../css/meetup.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="../../../../css/admin.css">
+</head>
+
+<body>
+  <header class="header">
+    <img src="../../../../assets/img/logo.png" alt="" class="logo">
+    <form action="#" class="search">
+      <input type="text" class="search__input" placeholder="Search meetups">
+      <button class="search__btn">
+        <svg class="search__icon">
+          <use xlink:href="../../../../assets/icons/sprite.svg#icon-magnifying-glass"></use>
+        </svg>
+      </button>
+    </form>
+
+    <div class="user-nav">
+      <div class="user-nav__icon-box">
+        <svg class="user-nav__icon">
+          <use xlink:href="../../../../assets/icons/sprite.svg#icon-chat"></use>
+        </svg>
+        <span class="user-nav__notification">2</span>
+      </div>
+      <div class="user-nav__icon-box">
+        <svg class="user-nav__icon">
+          <use xlink:href="../../../../assets/icons/sprite.svg#icon-bell"></use>
+        </svg>
+        <span class="user-nav__notification">10</span>
+      </div>
+      <div class="user-nav__user">
+        <figure class="user-nav__profile-photo">
+          <img src="../../../../upload/img/user.jpg" alt="User photo" class="user-nav__user-photo">
+        </figure>
+        <!-- <span class="user-nav__user-name">Blezobakundukize</span> -->
+        <svg class="user-nav__icon-profile">
+          <use xlink:href="../../../../assets/icons/sprite.svg#icon-chevron-thin-down"></use>
+        </svg>
+      </div>
+    </div>
+    <!-- <div class="profile">
+      <ul class="profile-nav">
+        <li class="profile-nav__item">
+          <a href="#" class="profile-nav__link">
+            My profile
+          </a>
+        </li>
+        <li class="profile-nav__item">
+          <a href="#" class="profile-nav__link">
+            Reset password
+          </a>
+        </li>
+        <li class="profile-nav__item">
+          <a href="#" class="profile-nav__link">
+            Logout
+          </a>
+        </li>
+      </ul>
+    </div> -->
+  </header>
+  <div class="container container--admin margin-top-header-fixed">
+    <div class="content">
+      <nav class="sidebar">
+        <ul class="side-nav">
+          <li class="side-nav__item">
+            <a href="./meetups.html" class="side-nav__link">
+              <svg class="side-nav__icon">
+                <use xlink:href="../../../../assets/icons/sprite.svg#icon-home"></use>
+              </svg>
+              <span>All Meetup</span>
+            </a>
+          </li>
+          <li class="side-nav__item side-na--current">
+            <a href="./create.html" class="side-nav__link">
+              <svg class="side-nav__icon">
+                <use xlink:href="../../../../assets/icons/sprite.svg#icon-plus"></use>
+              </svg>
+              <span>Create a Meetup</span>
+            </a>
+          </li>
+          <li class="side-nav__item">
+            <a href="../tag/tag.html" class="side-nav__link">
+              <svg class="side-nav__icon">
+                <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+              </svg>
+              <span>Tags</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <main class="meetup-view admin-meetups">
+        <h1 class="heading-primary margin-top-small center-text">Create Meetup</h1>
+        <form action="#" class="form form__create-meetup margin-top-small">
+          <div class="form__group">
+            <input type="text" class="form__input form__input-create-meetup" placeholder="Location    e.g:Country-City"
+              name="location" required>
+          </div>
+          <div class="form__group flex--column">
+            <label for="pic" class="form__add-image-label text--small text--grey">Add Meetup Image</label>
+            <input type="file" class="form__add-image" name="pic" accept="image/*" required>
+          </div>
+          <div class="form__group">
+            <input type="text" class="form__input form__input-create-meetup js--form__input-create-meetup" placeholder="Search for Tags"
+              name="meetupAbout" required>
+            <div class="tag-view__main tags-container">
+              <button class="btn btn--grey btn__hide-tags js--btn__hide-tags">Hide Tags</button>
+              <ul class="tag-view__list">
+                <li class="tag-view__item">
+                  <span>Technology</span>
+                  <svg class="tag-view__icon">
+                    <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                  </svg>
+                </li>
+                <li class="tag-view__item">
+                  <span>Web Technology</span>
+                  <svg class="tag-view__icon">
+                    <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                  </svg>
+                </li>
+                <li class="tag-view__item">
+                  <span>Travel</span>
+                  <svg class="tag-view__icon">
+                    <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                  </svg>
+                </li>
+                <li class="tag-view__item">
+                  <span>Mobile Technology</span>
+                  <svg class="tag-view__icon">
+                    <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                  </svg>
+                </li>
+                <li class="tag-view__item">
+                  <span>Artists</span>
+                  <svg class="tag-view__icon">
+                    <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                  </svg>
+                </li>
+                <li class="tag-view__item">
+                  <span>Arts</span>
+                  <svg class="tag-view__icon">
+                    <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                  </svg>
+                </li>
+                <li class="tag-view__item">
+                  <span>Crafs</span>
+                  <svg class="tag-view__icon">
+                    <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                  </svg>
+                </li>
+                <li class="tag-view__item">
+                  <span>New Technology</span>
+                  <svg class="tag-view__icon">
+                    <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                  </svg>
+                </li>
+                <li class="tag-view__item">
+                  <span>Fitness</span>
+                  <svg class="tag-view__icon">
+                    <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                  </svg>
+                </li>
+                <li class="tag-view__item">
+                  <span>Music</span>
+                  <svg class="tag-view__icon">
+                    <use xlink:href="../../../../assets/icons/sprite.svg#icon-heart-outlined"></use>
+                  </svg>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="form__group">
+            <input type="text" class="form__input form__input-create-meetup" placeholder="Meetup Title" name="meetupTitle"
+              required maxlength="50">
+          </div>
+          <div class="form__group">
+            <textarea class="form__create-meetup-details form__input-create-meetup js--form__textarea" placeholder="Meetup Details..."
+              name="meetupDetails"></textarea>
+          </div>
+          <div class="form__group">
+            <button type="submit" class="btn btn--blue">Submit Meetup</button>
+          </div>
+        </form>
+      </main>
+    </div>
+  </div>
+  <script src="../../../../js/createMeetup.js"></script>
+</body>
+
+</html>

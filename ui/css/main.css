@@ -440,7 +440,7 @@ padding: 0 1rem;
   box-sizing : border-box;
 }
 
-.form__input:focus, .form-feedback__area:focus {
+.form__input:focus, .form-feedback__area:focus, .form__create-meetup-details:focus {
   outline: none;
   border: 1px solid var(--color-blue-dark-1)
 }

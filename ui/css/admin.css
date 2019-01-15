@@ -7,7 +7,7 @@
   background-color: var(--color-grey-dark-1);
   flex: 0 0 20%;
   display: flex;
-  height: calc(100vh - 7rem);
+  min-height: calc(100vh - 7rem);
 }
 
 .side-nav {
@@ -168,4 +168,45 @@
 
 .meetup__edit-icon:hover {
   fill: var(--color-green-light-1);
-} 
+}
+
+/*----------Create Meetups on Admin Dashboard------------*/
+.form__create-meetup {
+  width: 70%;
+  margin: auto;
+}
+
+.form__group-create-meetup {
+  margin-bottom: 1rem;
+}
+
+.form__create-meetup-details {
+  min-height: 10rem;
+  width: 100%;
+  padding: 1rem 1rem;
+  box-sizing: border-box;
+  transition: all .3s;
+  resize: none;
+  outline: none;
+  background-color: var(--color-white);
+}
+
+.form__input-create-meetup {
+  border-radius: .5rem;
+  border: var(--line);
+}
+
+.btn__hide-tags {
+  margin-top: .5rem;
+  padding: .5rem 1rem;
+  text-transform: capitalize;
+  margin-left: .5rem;
+}
+
+.tags-container {
+  display: none;
+}
+
+.form__add-image-label {
+  margin-bottom: .3rem;
+}
