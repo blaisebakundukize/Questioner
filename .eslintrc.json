@@ -9,9 +9,11 @@
     "rules": {
         "no-console": "off",
         "linebreak-style": 0,
+        "max-len": 0,
         "comma-dangle": [
             "error",
             "never"
-        ]
+        ],
+        "class-methods-use-this": "off"
     }
 }

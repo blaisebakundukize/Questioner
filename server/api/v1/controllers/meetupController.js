@@ -1,6 +1,7 @@
 import Meetup from '../../../models/meetup';
-import Tag from '../../../models/tag';
-import RSVP from '../../../models/rsvp';
+import validateMeetup from '../../../utils/validateData';
+import Tag from '../../../models/tags';
+// import RSVP from '../../../models/rsvp';
 
 /**
  * Class is controlling meetup model
@@ -9,24 +10,38 @@ import RSVP from '../../../models/rsvp';
  */
 class MeetupController {
   /**
+   * @constructor
+   */
+  // constructor() {
+  // }
+
+  /**
    * Retrieve all meetups
    * @param {Object} req - request made by the user
    * @param {Object} res - response to be given to the user
    * @return {Object} Response
    */
-  static getMeetups(req, res) {
+  async getMeetups(req, res) {
     const path = req.path.toLowerCase().split('/').find(p => p === 'upcoming');
-    let meetups = [];
-    if (typeof path !== 'undefined') {
-      meetups = Meetup.getUpcoming();
-    } else {
-      meetups = Meetup.getAll();
+    try {
+      let meetups = [];
+      if (typeof path !== 'undefined') {
+        meetups = await Meetup.getUpcoming();
+      } else {
+        meetups = await Meetup.getAll();
+      }
+      // const data = meetups.map(this.addTagByNames);
+      console.log(meetups);
+      res.status(200).send({
+        status: 200,
+        data: meetups
+      });
+    } catch (error) {
+      res.status(404).send({
+        status: 404,
+        error: error.message
+      });
     }
-    const data = meetups.map(MeetupController.addTagByNames);
-    res.status(200).send({
-      status: 200,
-      data
-    });
   }
 
   /**
@@ -35,18 +50,18 @@ class MeetupController {
    * @param {Object} res - response to be given to the user
    * @return {Object} Response
    */
-  static getMeetupById(req, res) {
+  async getMeetupById(req, res) {
     const id = parseInt(req.params.meetupId, 10);
-    const data = Meetup.getById(id);
-    if (typeof data !== 'undefined') {
+    try {
+      const data = await Meetup.getById(id);
       res.status(200).send({
         status: 200,
         data
       });
-    } else {
+    } catch (error) {
       res.status(404).send({
         status: 404,
-        error: 'Requested meetup is not exist'
+        error: error.message
       });
     }
   }
@@ -57,26 +72,24 @@ class MeetupController {
    * @param {Object} res - response to be given to the user
    * @return {Object} Response
    */
-  static async createMeetup(req, res) {
+  async createMeetup(req, res) {
     const data = req.body;
-    console.log(data);
     const tagsName = data.tags;
+    Tag.createUnfoundTags(tagsName);
     try {
-      const tagsId = Tag.getTagsIdByNames(data.tags);
-      // Replace tag names by their corresponding ids
-      data.tags = tagsId;
-
-      const meetupSaved = await Meetup.create(data);
-      console.log(meetupSaved);
-      res.status(201).send({
-        status: 201,
-        data: [{
-          topic: meetupSaved.topic,
-          location: meetupSaved.location,
-          happeningOn: new Date(meetupSaved.happeningOn),
-          tags: tagsName
-        }]
-      });
+      const isDataValidated = await validateMeetup(data);
+      if (isDataValidated) {
+        const meetupSaved = await Meetup.create(data);
+        res.status(201).send({
+          status: 201,
+          data: [{
+            topic: meetupSaved.topic,
+            location: meetupSaved.location,
+            happeningOn: new Date(meetupSaved.happeningOn),
+            tags: tagsName
+          }]
+        });
+      }
     } catch (e) {
       res.status(400).send({
         status: 400,
@@ -89,7 +102,7 @@ class MeetupController {
    * @param {Object} meetup - Contains data for a meetup
    * @returns {Object} meetupDataSelected - Not all meetup data and tags are by their names
    */
-  static addTagByNames(meetup) {
+  addTagByNames(meetup) {
     const tags = Tag.getTags(meetup.tags);
     const meetupFound = {
       id: meetup.id,
@@ -107,54 +120,54 @@ class MeetupController {
    * @param {Object} res - response to be given to the user
    * @return {Object} Response
    */
-  static replyToAttend(req, res) {
-    const data = req.body;
-    data.meetup = parseInt(req.params.meetupId,
-      10);
-    const meetup = Meetup.getById(data.meetup);
-    // Check if user has already replied to attend the meetup
-    const isUserNotReplied = RSVP.getUserReplyToAttend(data.user, data.meetup);
+  // static replyToAttend(req, res) {
+  //   const data = req.body;
+  //   data.meetup = parseInt(req.params.meetupId,
+  //     10);
+  //   const meetup = Meetup.getById(data.meetup);
+  //   // Check if user has already replied to attend the meetup
+  //   const isUserNotReplied = RSVP.getUserReplyToAttend(data.user, data.meetup);
 
-    if (isUserNotReplied) {
-      try {
-        const createdData = RSVP.replyToAttend(data);
-        res.status(201).send({
-          status: 201,
-          data: [
-            {
-              meetup: createdData.meetup,
-              topic: meetup.topic,
-              status: createdData.response
-            }
-          ]
-        });
-      } catch (e) {
-        res.status(400).send({
-          status: 400,
-          error: e.message
-        });
-      }
-    } else {
-      const rsvpUpdated = RSVP.updateUserReplyToAttend(data);
-      if (rsvpUpdated !== undefined) {
-        res.status(201).send({
-          status: 201,
-          data: [
-            {
-              meetup: rsvpUpdated.meetup,
-              topic: meetup.topic,
-              status: rsvpUpdated.response
-            }
-          ]
-        });
-      } else {
-        res.status(500).send({
-          status: 500,
-          error: 'Internal server error'
-        });
-      }
-    }
-  }
+  //   if (isUserNotReplied) {
+  //     try {
+  //       const createdData = RSVP.replyToAttend(data);
+  //       res.status(201).send({
+  //         status: 201,
+  //         data: [
+  //           {
+  //             meetup: createdData.meetup,
+  //             topic: meetup.topic,
+  //             status: createdData.response
+  //           }
+  //         ]
+  //       });
+  //     } catch (e) {
+  //       res.status(400).send({
+  //         status: 400,
+  //         error: e.message
+  //       });
+  //     }
+  //   } else {
+  //     const rsvpUpdated = RSVP.updateUserReplyToAttend(data);
+  //     if (rsvpUpdated !== undefined) {
+  //       res.status(201).send({
+  //         status: 201,
+  //         data: [
+  //           {
+  //             meetup: rsvpUpdated.meetup,
+  //             topic: meetup.topic,
+  //             status: rsvpUpdated.response
+  //           }
+  //         ]
+  //       });
+  //     } else {
+  //       res.status(500).send({
+  //         status: 500,
+  //         error: 'Internal server error'
+  //       });
+  //     }
+  //   }
+  // }
 }
 
-export default MeetupController;
+export default new MeetupController();
