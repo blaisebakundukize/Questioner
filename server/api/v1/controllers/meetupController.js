@@ -30,10 +30,21 @@ class MeetupController {
       } else {
         meetups = await Meetup.getAll();
       }
-      // const data = meetups.map(this.addTagByNames);
+      const data = meetups.map((m) => {
+        const meetupFound = {
+          id: m.id,
+          title: m.topic,
+          location: m.location,
+          happeningOn: m.happeningOn,
+          tags: m.tags
+        };
+        return meetupFound;
+      });
+      // console.log(meetups);
+      console.log(data);
       res.status(200).send({
         status: 200,
-        data: meetups
+        data
       });
     } catch (error) {
       res.status(404).send({
@@ -96,22 +107,6 @@ class MeetupController {
         error: e.message
       });
     }
-  }
-
-  /**
-   * @param {Object} meetup - Contains data for a meetup
-   * @returns {Object} meetupDataSelected - Not all meetup data and tags are by their names
-   */
-  addTagByNames(meetup) {
-    // const tags = Tag.getTags(meetup.tags);
-    const meetupFound = {
-      id: meetup.id,
-      title: meetup.topic,
-      location: meetup.location,
-      happeningOn: meetup.happeningOn,
-      tags: meetup.tags // tags.map(tag => tag.name)
-    };
-    return meetupFound;
   }
 
   /**

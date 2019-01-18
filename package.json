@@ -4,7 +4,7 @@
   "description": "Crowd-source questions for a meetup",
   "main": "app.js",
   "scripts": {
-    "test": " mocha --require babel-polyfill --require babel-register server/test/**/*.test.js --exit",
+    "test": "nyc --reporter=html --reporter=text --timeout=1500 mocha --require babel-polyfill --require babel-register server/test/**/*.test.js --exit",
     "start": "nodemon --exec babel-node server/app.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
