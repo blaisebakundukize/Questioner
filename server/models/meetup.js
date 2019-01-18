@@ -21,7 +21,7 @@ class Meetup {
       happeningOn: undefined,
       tags: undefined,
       createdBy: undefined,
-      createdOn: null,
+      createdOn: new Date(),
       updatedOn: null
     };
   }

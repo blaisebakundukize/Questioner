@@ -19,6 +19,8 @@ class QuestionController {
     data.meetup = parseInt(req.params.meetupId, 10);
     try {
       // eslint-disable-next-line no-unused-vars
+      const isQuestionStored = await Question.getQuestionByItsProperties(data);
+      // eslint-disable-next-line no-unused-vars
       const isValidated = await validateQuestion(data);
       const question = await Question.addQuestion(data);
       return res.status(201).send({
@@ -66,10 +68,14 @@ class QuestionController {
       }
       const votes = await Question.saveVotes(data);
       return res.status(200).send({
-        meetup: meetup.id,
-        title: questionAvailable.title,
-        body: questionAvailable.body,
-        votes
+        status: 200,
+        data: [{
+          meetup: meetup.id,
+          title: questionAvailable.title,
+          body: questionAvailable.body,
+          downvotes: votes.downvotes,
+          upvotes: votes.upvotes
+        }]
       });
     } catch (error) {
       return res.status(400).send({

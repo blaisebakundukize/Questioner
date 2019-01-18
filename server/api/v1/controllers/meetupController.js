@@ -1,7 +1,7 @@
 import Meetup from '../../../models/meetup';
 import { validateMeetup, validateTag } from '../../../utils/validateData';
 import Tag from '../../../models/tags';
-// import RSVP from '../../../models/rsvp';
+import RSVP from '../../../models/rsvp';
 
 /**
  * Class is controlling meetup model
@@ -120,49 +120,49 @@ class MeetupController {
    * @param {Object} res - response to be given to the user
    * @return {Object} Response
    */
-  // async replyToAttend(req, res) {
-  //   const data = req.body;
-  //   data.meetup = parseInt(req.params.meetupId,
-  //     10);
-  //   const meetup = Meetup.getById(data.meetup);
-  //   // Check if user has already replied to attend the meetup
-  //   const isUserNotReplied = RSVP.getUserReplyToAttend(data.user, data.meetup);
+  async replyToAttend(req, res) {
+    const data = req.body;
+    data.meetup = parseInt(req.params.meetupId,
+      10);
+    const meetup = Meetup.getById(data.meetup);
+    // Check if user has already replied to attend the meetup
+    const isUserNotReplied = RSVP.getUserReplyToAttend(data.user, data.meetup);
 
-  //   if (isUserNotReplied) {
-  //     try {
-  //       const createdData = await RSVP.replyToAttend(data);
-  //       res.status(201).send({
-  //         status: 201,
-  //         data: [
-  //           {
-  //             meetup: createdData.meetup,
-  //             topic: meetup.topic,
-  //             status: createdData.response
-  //           }
-  //         ]
-  //       });
-  //     } catch (e) {
-  //       res.status(400).send({
-  //         status: 400,
-  //         error: e.message
-  //       });
-  //     }
-  //   } else {
-  //     const rsvpUpdated = RSVP.updateUserReplyToAttend(data);
-  //     if (rsvpUpdated !== undefined) {
-  //       res.status(201).send({
-  //         status: 201,
-  //         data: [
-  //           {
-  //             meetup: rsvpUpdated.meetup,
-  //             topic: meetup.topic,
-  //             status: rsvpUpdated.response
-  //           }
-  //         ]
-  //       });
-  //     }
-  //   }
-  // }
+    if (isUserNotReplied) {
+      try {
+        const createdData = await RSVP.replyToAttend(data);
+        res.status(201).send({
+          status: 201,
+          data: [
+            {
+              meetup: createdData.meetup,
+              topic: meetup.topic,
+              status: createdData.response
+            }
+          ]
+        });
+      } catch (e) {
+        res.status(400).send({
+          status: 400,
+          error: e.message
+        });
+      }
+    } else {
+      const rsvpUpdated = RSVP.updateUserReplyToAttend(data);
+      if (rsvpUpdated !== undefined) {
+        res.status(201).send({
+          status: 201,
+          data: [
+            {
+              meetup: rsvpUpdated.meetup,
+              topic: meetup.topic,
+              status: rsvpUpdated.response
+            }
+          ]
+        });
+      }
+    }
+  }
 }
 
 export default new MeetupController();

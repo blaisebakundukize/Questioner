@@ -49,6 +49,21 @@ class Question {
   }
 
   /**
+   * Checkout if it is allready stored
+   * @param {Object} question - question to create
+   */
+  getQuestionByItsProperties(question) {
+    return new Promise((resolve, reject) => {
+      const questionFound = this.questions.find(q => (q.title === question.title) && (q.meetup === question.meetup) && (q.body === question.body));
+      if (questionFound === undefined) {
+        resolve(true);
+      } else {
+        reject(new Error('Question is already asked'));
+      }
+    });
+  }
+
+  /**
    * Get a specif question
    * @param {Number} id - Question identifier
    * @param {Number} meetupId - Meetup identifier with the Question
@@ -132,7 +147,9 @@ class Question {
         }
         const questionIndex = this.questions.findIndex(q => q.id === votes.question);
         this.questions[questionIndex].votes += votes.votePoints;
-        resolve(this.questions[questionIndex].votes);
+        const upvotes = this.upvoters.filter(up => up.question === votes.question);
+        const downvotes = this.downvoters.filter(dw => dw.question === votes.question);
+        resolve({ upvotes: upvotes.length, downvotes: downvotes.length });
       } catch (error) {
         reject(error);
       }

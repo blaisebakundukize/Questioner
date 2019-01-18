@@ -30,7 +30,7 @@ class RSVP {
   getUserReplyToAttend(user, meetup) {
     const rsvp = this.rsvps.find(r => r.user === user && r.meetup === meetup);
 
-    return rsvp === undefined;
+    return rsvp;
   }
 
   /**
