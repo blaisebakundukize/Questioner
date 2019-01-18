@@ -1,5 +1,5 @@
-import rsvps, { rsvpSchema } from '../database/rsvps';
-
+import userDataSchema from '../utils/useDataSchemas';
+import nextId from '../utils/nextId';
 /**
  * This model represents meetup's rsvp
  * @class
@@ -7,13 +7,28 @@ import rsvps, { rsvpSchema } from '../database/rsvps';
  */
 class RSVP {
   /**
+   * @constructor
+   */
+  constructor() {
+    this.rsvps = [];
+    this.rsvpSchema = {
+      id: undefined,
+      meetup: undefined,
+      user: undefined,
+      response: undefined,
+      createdOn: new Date(),
+      updatedOn: new Date()
+    };
+  }
+
+  /**
    * Get user rsvp reply of a meetup
    * @param {Number} user - User id
    * @param {Number} meetup - meetup id
    * @return {Object} RSVP replied by a user
    */
-  static getUserReplyToAttend(user, meetup) {
-    const rsvp = rsvps.find(r => r.user === user && r.meetup === meetup);
+  getUserReplyToAttend(user, meetup) {
+    const rsvp = this.rsvps.find(r => r.user === user && r.meetup === meetup);
 
     return rsvp === undefined;
   }
@@ -23,14 +38,14 @@ class RSVP {
    * @param {Object} data - Object of user, meetup and response
    * @return {Object} User Update rsvp reply
    */
-  static updateUserReplyToAttend(data) {
-    const index = rsvps.findIndex(rsvp => rsvp.user === data.user && rsvp.meetup === data.meetup);
+  updateUserReplyToAttend(data) {
+    const index = this.rsvps.findIndex(rsvp => rsvp.user === data.user && rsvp.meetup === data.meetup);
 
-    if (rsvps[index].response.toLowerCase() !== data.response.toLowerCase()) {
-      rsvps[index].response = data.response;
+    if (this.rsvps[index].response.toLowerCase() !== data.response.toLowerCase()) {
+      this.rsvps[index].response = data.response;
     }
 
-    return rsvps[index];
+    return this.rsvps[index];
   }
 
   /**
@@ -38,27 +53,19 @@ class RSVP {
    * @param {Object} data - An Object of user, meetup and rsvp status
    * @return {Object} rsvp - Data format for rsvp
    */
-  static replyToAttend(data) {
-    const rsvpKeys = Object.keys(rsvpSchema);
-    const rsvp = Object.assign({}, rsvpSchema);
-    const nextId = rsvps[rsvps.length - 1
-    ].id + 1;
-    rsvp.id = nextId;
-
-    rsvpKeys.forEach((key) => {
-      if (data[key]) {
-        rsvp[key] = data[key];
-      }
-      // check if rsvp properties contains valid data
-      if (rsvp[key] === undefined) {
-        throw new Error(`${key} is required`);
+  async replyToAttend(data) {
+    const nId = nextId(this.rsvps);
+    return new Promise((resolve, reject) => {
+      try {
+        const rsvp = userDataSchema(data, nId, this.rsvpSchema);
+        // Save user rsvp to database
+        this.rsvps.push(rsvp);
+        resolve(rsvp);
+      } catch (error) {
+        reject(error);
       }
     });
-    // Save user rsvp to database
-    rsvps.push(rsvp);
-
-    return rsvp;
   }
 }
 
-export default RSVP;
+export default new RSVP();

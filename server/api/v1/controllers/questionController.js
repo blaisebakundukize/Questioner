@@ -1,4 +1,6 @@
 import Question from '../../../models/question';
+import { validateQuestion } from '../../../utils/validateData';
+import Meetup from '../../../models/meetup';
 
 /**
  * Controller of Question model
@@ -12,15 +14,13 @@ class QuestionController {
    * @param {Object} res - Response
    * @return {Object} Response
    */
-  static async createQuestion(req, res) {
-    if (req.body.body.length < 50) {
-      return res.status(400).send({
-        status: 400,
-        error: 'Question must be atleast 50 characters long'
-      });
-    }
+  async createQuestion(req, res) {
+    const data = req.body;
+    data.meetup = parseInt(req.params.meetupId, 10);
     try {
-      const question = await Question.addQuestion(req.body);
+      // eslint-disable-next-line no-unused-vars
+      const isValidated = await validateQuestion(data);
+      const question = await Question.addQuestion(data);
       return res.status(201).send({
         status: 201,
         data: [{
@@ -44,36 +44,40 @@ class QuestionController {
    * @param {Object} res - Response to the user
    * @return {Object} Response
    */
-  static async voteQuestion(req, res) {
+  async voteQuestion(req, res) {
     const IsVoteType = req.path.toLowerCase().split('/').find(p => p === 'upvote');
-    const voteType = IsVoteType === undefined ? 'down' : 'up';
+    const voteType = IsVoteType === undefined ? 'downvote' : 'upvote';
     const data = req.body;
     data.voteType = voteType;
+    data.meetup = parseInt(req.params.meetupId, 10);
+    data.question = parseInt(req.params.questionId, 10);
+    console.log(data.meetup);
     try {
-      const question = await Question.getById(data.question);
-      const voter = await Question.getUserVote(data.user, data.question);
-      let votes;
-      if (voter !== undefined) {
-        votes = await Question.updateUserVote(voter, voteType);
-      } else {
-        votes = await Question.voteQuestion(data);
+      let meetup;
+      let questionAvailable;
+      try {
+        meetup = await Meetup.getById(data.meetup);
+        questionAvailable = await Question.getById(data.question, data.meetup);
+      } catch (error) {
+        return res.status(404).send({
+          status: 404,
+          error: error.message
+        });
       }
+      const votes = await Question.saveVotes(data);
       return res.status(200).send({
-        status: 200,
-        data: [{
-          meetup: question.meetup,
-          title: question.title,
-          body: question.body,
-          votes
-        }]
+        meetup: meetup.id,
+        title: questionAvailable.title,
+        body: questionAvailable.body,
+        votes
       });
-    } catch (err) {
+    } catch (error) {
       return res.status(400).send({
         status: 400,
-        error: err.message
+        error: error.message
       });
     }
   }
 }
 
-export default QuestionController;
+export default new QuestionController();

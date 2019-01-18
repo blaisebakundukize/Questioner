@@ -1,5 +1,5 @@
 import Meetup from '../../../models/meetup';
-import validateMeetup from '../../../utils/validateData';
+import { validateMeetup, validateTag } from '../../../utils/validateData';
 import Tag from '../../../models/tags';
 // import RSVP from '../../../models/rsvp';
 
@@ -31,7 +31,6 @@ class MeetupController {
         meetups = await Meetup.getAll();
       }
       // const data = meetups.map(this.addTagByNames);
-      console.log(meetups);
       res.status(200).send({
         status: 200,
         data: meetups
@@ -75,10 +74,11 @@ class MeetupController {
   async createMeetup(req, res) {
     const data = req.body;
     const tagsName = data.tags;
-    Tag.createUnfoundTags(tagsName);
     try {
+      const validated = await validateTag(tagsName);
+      Tag.createUnfoundTags(tagsName);
       const isDataValidated = await validateMeetup(data);
-      if (isDataValidated) {
+      if (isDataValidated && validated) {
         const meetupSaved = await Meetup.create(data);
         res.status(201).send({
           status: 201,
@@ -103,13 +103,13 @@ class MeetupController {
    * @returns {Object} meetupDataSelected - Not all meetup data and tags are by their names
    */
   addTagByNames(meetup) {
-    const tags = Tag.getTags(meetup.tags);
+    // const tags = Tag.getTags(meetup.tags);
     const meetupFound = {
       id: meetup.id,
       title: meetup.topic,
       location: meetup.location,
       happeningOn: meetup.happeningOn,
-      tags: tags.map(tag => tag.name)
+      tags: meetup.tags // tags.map(tag => tag.name)
     };
     return meetupFound;
   }
@@ -120,7 +120,7 @@ class MeetupController {
    * @param {Object} res - response to be given to the user
    * @return {Object} Response
    */
-  // static replyToAttend(req, res) {
+  // async replyToAttend(req, res) {
   //   const data = req.body;
   //   data.meetup = parseInt(req.params.meetupId,
   //     10);
@@ -130,7 +130,7 @@ class MeetupController {
 
   //   if (isUserNotReplied) {
   //     try {
-  //       const createdData = RSVP.replyToAttend(data);
+  //       const createdData = await RSVP.replyToAttend(data);
   //       res.status(201).send({
   //         status: 201,
   //         data: [
@@ -159,11 +159,6 @@ class MeetupController {
   //             status: rsvpUpdated.response
   //           }
   //         ]
-  //       });
-  //     } else {
-  //       res.status(500).send({
-  //         status: 500,
-  //         error: 'Internal server error'
   //       });
   //     }
   //   }

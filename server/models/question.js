@@ -1,5 +1,7 @@
-import questions, { questionSchema } from '../database/questions';
-import voters, { voterSchema } from '../database/voters';
+// import questions, { questionSchema } from '../database/questions';
+// import voters, { voterSchema } from '../database/voters';
+import nextId from '../utils/nextId';
+import useDataSchemas from '../utils/useDataSchemas';
 
 /**
  * Class represents meetup's questions
@@ -8,41 +10,55 @@ import voters, { voterSchema } from '../database/voters';
  */
 class Question {
   /**
+   * @constructor
+   */
+  constructor() {
+    this.questions = [];
+    this.questionSchema = {
+      id: undefined,
+      createdOn: new Date(),
+      createdBy: undefined,
+      meetup: undefined,
+      title: null,
+      body: undefined,
+      votes: null,
+      updatedOn: new Date()
+    };
+    this.upvoters = [];
+    this.downvoters = [];
+  }
+
+  /**
    * Add meetup's question to a database
    * @param {Object} data - An object of question fields
    * @return {Object} Created question
    */
-  static addQuestion(data) {
-    return new Promise((resolve, reject) => {
-      const questionFields = Object.keys(questionSchema);
-      const question = { ...questionSchema };
-      const nextId = questions[questions.length - 1].id + 1;
-      question.id = nextId;
-      question.createdOn = Date.now();
-      question.votes = 0;
-      questionFields.forEach((field) => {
-        if (data[field]) {
-          question[field] = data[field];
-        }
-
-        if (question[field] === undefined) {
-          reject(new Error(`${field} is required`));
-        }
-      });
-      questions.push(question);
-      resolve(question);
+  async addQuestion(data) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const id = nextId(this.questions);
+        const question = await useDataSchemas(data, id, this.questionSchema);
+        question.createdOn = Date.now();
+        question.votes = 0;
+        this.questions.push(question);
+        resolve(question);
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 
   /**
    * Get a specif question
    * @param {Number} id - Question identifier
+   * @param {Number} meetupId - Meetup identifier with the Question
    * @return {Object} Question
    */
-  static getById(id) {
-    const question = questions.find(q => q.id === id);
+  getById(id, meetupId) {
+    console.log(meetupId);
+    const question = this.questions.find(q => (q.id === id) && (q.meetup === meetupId));
     return new Promise((resolve, reject) => {
-      if (question === undefined) reject(new Error('The question with the given ID is invalid'));
+      if (question === undefined) reject(new Error('The question with the given ID is not found'));
       resolve(question);
     });
   }
@@ -53,56 +69,75 @@ class Question {
    * @param {Number} questionId - question identifier
    * @return {Object} User vote
    */
-  static getUserVote(userId, questionId) {
-    const voter = voters.find(v => v.user === userId && v.question === questionId);
-    return Promise.resolve(voter);
+  getUserVote(userId, questionId) {
+    let voter;
+    voter = this.downvoters.find(d => d.user === userId && d.question === questionId);
+    if (voter === undefined) {
+      voter = this.upvoters.find(u => u.user === userId && u.question === questionId);
+      if (voter !== undefined) {
+        voter.voteType = 'upvote';
+      }
+    }
+    return voter;
   }
 
   /**
-   * Update user vote
-   * @param {Object} vote - User vote data
-   * @param {String} voteType - up or down
+   * Upvote questions
+   * @param {Object} voter - User vote data
    */
-  static updateUserVote(voter, voteType) {
-    const voteIndex = voters.findIndex(v => v.id === voter.id);
-    const questionIndex = questions.findIndex(q => q.id === voter.question);
-    return new Promise((resolve) => {
-      if (voter.voteType !== voteType) {
-        voters[voteIndex] = voteType;
-        console.log(voteType);
-        if (voteType === 'up') {
-          questions[questionIndex].votes += 2;
+  vote(voter) {
+    const alreadyVote = this.getUserVote(voter.user, voter.question);
+    return new Promise((resolve, reject) => {
+      let votePoints;
+      if (alreadyVote === undefined) {
+        if (voter.voteType === 'upvote') {
+          votePoints = 1;
         } else {
-          questions[questionIndex].votes -= 2;
+          votePoints = -1;
         }
+      } else if (alreadyVote.voteType) {
+        if (voter.voteType === 'upvote') {
+          reject(new Error('You have already upvoted'));
+        } else {
+          const userVotesIndex = this.upvoters.findIndex(v => v.user === voter.user && v.meetup === voter.meetup);
+          this.upvoters.splice(userVotesIndex, 1);
+          votePoints = -2;
+        }
+      } else if (voter.voteType === 'downvote') {
+        reject(new Error('You have already downvoted'));
+      } else {
+        const userVotesIndex = this.downvoters.findIndex(v => v.user === voter.user && v.meetup === voter.meetup);
+        this.downvoters.splice(userVotesIndex, 1);
+        votePoints = 2;
       }
-      resolve(questions[questionIndex].votes);
+      resolve({ ...voter, votePoints });
     });
   }
 
   /**
-   * Upvote question
-   * @param {Object} data - Contains type of vote and ids for question, user, and meetup
-   * @return {Object} User data saved for voting
-   */
-  static voteQuestion(data) {
-    const questionIndex = questions.findIndex(q => q.id === data.question);
-    const nextVotersId = voters[voters.length - 1].id + 1;
-    const voter = { ...voterSchema };
-    voter.id = nextVotersId;
-    voter.user = data.user;
-    voter.question = data.question;
-    voter.voteType = data.voteType;
-    return new Promise((resolve) => {
-      voters.push(voter);
-      if (data.voteType === 'up') {
-        questions[questionIndex].votes += 1;
-      } else {
-        questions[questionIndex].votes -= 1;
+     * Increase question votes
+     * @param {Object} voter - User vote data
+     */
+  async saveVotes(voter) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const votes = await this.vote(voter);
+        let nId;
+        if (votes.voteType === 'upvote') {
+          nId = nextId(this.upvoters);
+          this.upvoters.push({ id: nId, user: votes.user, question: votes.question });
+        } else {
+          nId = nextId(this.downvoters);
+          this.downvoters.push({ id: nId, user: votes.user, question: votes.question });
+        }
+        const questionIndex = this.questions.findIndex(q => q.id === votes.question);
+        this.questions[questionIndex].votes += votes.votePoints;
+        resolve(this.questions[questionIndex].votes);
+      } catch (error) {
+        reject(error);
       }
-      resolve(questions[questionIndex].votes);
     });
   }
 }
 
-export default Question;
+export default new Question();

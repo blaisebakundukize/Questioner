@@ -1,4 +1,5 @@
 import userDataSchema from '../utils/useDataSchemas';
+import nextId from '../utils/nextId';
 
 /**
  * This model represents meetup data
@@ -31,13 +32,13 @@ class Meetup {
    * @return {object} An object of created meetup
    */
   async create(data) {
-    const nextId = this.meetups.length === 0 ? 1 : (this.meetups[this.meetups.length - 1].id + 1);
+    const nId = nextId(this.meetups);
     return new Promise(async (resolve, reject) => {
       try {
         const isTheMeetupNew = await this.getByPropertyValues(data);
 
         if (isTheMeetupNew) {
-          const meetup = await userDataSchema(data, nextId, this.meetupsSchema);
+          const meetup = await userDataSchema(data, nId, this.meetupsSchema);
 
           this.meetups.push(meetup);
           resolve(meetup);

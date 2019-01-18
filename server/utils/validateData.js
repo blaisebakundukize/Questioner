@@ -21,4 +21,34 @@ const validateMeetup = data => new Promise((resolve, reject) => {
   resolve(true);
 });
 
-export default validateMeetup;
+/**
+ * Validate Question
+ * @param {String} question - Body of question
+ */
+const validateQuestion = question => new Promise((resolve, reject) => {
+  if (question.body.length < 50) {
+    reject(new Error('Question must be atleast 50 characters long'));
+  }
+  resolve(true);
+});
+
+/**
+ * Validate Tags
+ * @param {Array} tag - array of tags
+ */
+const validateTag = tags => new Promise((resolve, reject) => {
+  const duplicate = {};
+  tags.forEach((tag) => {
+    if (tag.length === 0) {
+      reject(new Error('Empty tag is not allowed!!!'));
+    }
+    if (duplicate[tag]) {
+      reject(new Error('Duplicate tags Found!!!'));
+    } else {
+      duplicate[tag] = 1;
+    }
+  });
+  resolve(true);
+});
+
+export { validateMeetup, validateQuestion, validateTag };
