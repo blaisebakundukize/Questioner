@@ -34,16 +34,12 @@ class Question {
    * @return {Object} Created question
    */
   async addQuestion(data) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const id = nextId(this.questions);
-        const question = await useDataSchemas(data, id, this.questionSchema);
-        question.votes = 0;
-        this.questions.push(question);
-        resolve(question);
-      } catch (error) {
-        reject(error);
-      }
+    return new Promise(async (resolve) => {
+      const id = nextId(this.questions);
+      const question = await useDataSchemas(data, id, this.questionSchema);
+      question.votes = 0;
+      this.questions.push(question);
+      resolve(question);
     });
   }
 

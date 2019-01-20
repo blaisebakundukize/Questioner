@@ -35,14 +35,13 @@ class Meetup {
     const nId = nextId(this.meetups);
     return new Promise(async (resolve, reject) => {
       try {
+        // eslint-disable-next-line no-unused-vars
         const isTheMeetupNew = await this.getByPropertyValues(data);
 
-        if (isTheMeetupNew) {
-          const meetup = await userDataSchema(data, nId, this.meetupsSchema);
+        const meetup = await userDataSchema(data, nId, this.meetupsSchema);
 
-          this.meetups.push(meetup);
-          resolve(meetup);
-        }
+        this.meetups.push(meetup);
+        resolve(meetup);
       } catch (error) {
         reject(error);
       }

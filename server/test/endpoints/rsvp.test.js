@@ -72,7 +72,8 @@ describe('Questioner endpoints Meetup RSVPs', () => {
 
     // Create RSVP for a Meetup return error user id not valid
     it('Should return error user id not valid and response not valid for RSVP', (done) => {
-      rsvp.response = 'nonono';
+      rspv.user = 'INVALID_ID';
+      // rsvp.response = 'INVALID';
       chai.request(app)
         .post('/api/v1/meetups/1/rsvps/')
         .send(rspv)
@@ -85,9 +86,8 @@ describe('Questioner endpoints Meetup RSVPs', () => {
     });
 
     // Create RSVP for a Meetup return error user id not valid
-    it('Should return error user id not valid and response not valid for RSVP', (done) => {
-      rspv.user = 'INVALID_ID';
-      rsvp.response = 'INVALID';
+    it('Should return error response not valid for RSVP', (done) => {
+      rsvp.response = 'INVALID_RESPONSE';
       chai.request(app)
         .post('/api/v1/meetups/1/rsvps/')
         .send(rspv)

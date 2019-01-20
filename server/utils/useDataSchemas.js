@@ -9,14 +9,14 @@ const userDataSchema = (data, dataId, schema) => {
   const dataWithSchema = { ...schema };
 
   dataWithSchema.id = dataId;
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     propertyKeys.forEach((key) => {
       if (data[key]) {
         dataWithSchema[key] = data[key];
       }
-      if (dataWithSchema[key] === undefined) {
-        reject(new Error(`${key} is required`));
-      }
+      // if (dataWithSchema[key] === undefined) {
+      //   reject(new Error(`${key} is required`));
+      // }
     });
     resolve(dataWithSchema);
   });
