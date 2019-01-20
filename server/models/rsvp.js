@@ -27,10 +27,15 @@ class RSVP {
    * @param {Number} meetup - meetup id
    * @return {Object} RSVP replied by a user
    */
-  getUserReplyToAttend(user, meetup) {
-    const rsvp = this.rsvps.find(r => r.user === user && r.meetup === meetup);
-
-    return rsvp;
+  getUserReplyToAttend(data) {
+    const rsvp = this.rsvps.find(r => r.user === data.user && r.meetup === data.meetup);
+    let isResponseNew = false;
+    if (rsvp === undefined) {
+      isResponseNew = true;
+    } else if (rsvp.response.toLowerCase() === data.response.toLowerCase()) {
+      throw new Error(`Your response was '${data.response}' too!`);
+    }
+    return isResponseNew;
   }
 
   /**
@@ -40,11 +45,7 @@ class RSVP {
    */
   updateUserReplyToAttend(data) {
     const index = this.rsvps.findIndex(rsvp => rsvp.user === data.user && rsvp.meetup === data.meetup);
-
-    if (this.rsvps[index].response.toLowerCase() !== data.response.toLowerCase()) {
-      this.rsvps[index].response = data.response;
-    }
-
+    this.rsvps[index].response = data.response;
     return this.rsvps[index];
   }
 
@@ -55,15 +56,11 @@ class RSVP {
    */
   async replyToAttend(data) {
     const nId = nextId(this.rsvps);
-    return new Promise((resolve, reject) => {
-      try {
-        const rsvp = userDataSchema(data, nId, this.rsvpSchema);
-        // Save user rsvp to database
-        this.rsvps.push(rsvp);
-        resolve(rsvp);
-      } catch (error) {
-        reject(error);
-      }
+    return new Promise(async (resolve) => {
+      const rsvp = await userDataSchema(data, nId, this.rsvpSchema);
+      // Save user rsvp to database
+      this.rsvps.push(rsvp);
+      resolve(rsvp);
     });
   }
 }

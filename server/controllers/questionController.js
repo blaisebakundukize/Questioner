@@ -1,6 +1,6 @@
-import Question from '../../../models/question';
-import { validateQuestion } from '../../../utils/validateData';
-import Meetup from '../../../models/meetup';
+import Question from '../models/question';
+import { validateQuestion, validateUserId } from '../utils/validateData';
+import Meetup from '../models/meetup';
 
 /**
  * Controller of Question model
@@ -19,9 +19,16 @@ class QuestionController {
     data.meetup = parseInt(req.params.meetupId, 10);
     try {
       // eslint-disable-next-line no-unused-vars
-      const isQuestionStored = await Question.getQuestionByItsProperties(data);
+      const isMeetupAvailable = await Meetup.getById(data.meetup);
+      const error = await validateQuestion(data);
+      if (error.length > 0) {
+        return res.status(400).send({
+          status: 400,
+          error
+        });
+      }
       // eslint-disable-next-line no-unused-vars
-      const isValidated = await validateQuestion(data);
+      const isQuestionStored = await Question.getQuestionByItsProperties(data);
       const question = await Question.addQuestion(data);
       return res.status(201).send({
         status: 201,
@@ -53,10 +60,11 @@ class QuestionController {
     data.voteType = voteType;
     data.meetup = parseInt(req.params.meetupId, 10);
     data.question = parseInt(req.params.questionId, 10);
-    console.log(data.meetup);
     try {
       let meetup;
       let questionAvailable;
+      // eslint-disable-next-line no-unused-vars
+      const isUserIdValid = await validateUserId(data.user);
       try {
         meetup = await Meetup.getById(data.meetup);
         questionAvailable = await Question.getById(data.question, data.meetup);

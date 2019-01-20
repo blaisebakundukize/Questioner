@@ -1,7 +1,7 @@
-import Meetup from '../../../models/meetup';
-import { validateMeetup, validateTag } from '../../../utils/validateData';
-import Tag from '../../../models/tags';
-import RSVP from '../../../models/rsvp';
+import Meetup from '../models/meetup';
+import { validateMeetup, validateRSVP } from '../utils/validateData';
+import Tag from '../models/tag';
+import RSVP from '../models/rsvp';
 
 /**
  * Class is controlling meetup model
@@ -40,8 +40,6 @@ class MeetupController {
         };
         return meetupFound;
       });
-      // console.log(meetups);
-      console.log(data);
       res.status(200).send({
         status: 200,
         data
@@ -66,7 +64,13 @@ class MeetupController {
       const data = await Meetup.getById(id);
       res.status(200).send({
         status: 200,
-        data
+        data: {
+          id: data.id,
+          title: data.topic,
+          location: data.location,
+          happeningOn: data.happeningOn,
+          tags: data.tags
+        }
       });
     } catch (error) {
       res.status(404).send({
@@ -86,23 +90,26 @@ class MeetupController {
     const data = req.body;
     const tagsName = data.tags;
     try {
-      const validated = await validateTag(tagsName);
       Tag.createUnfoundTags(tagsName);
-      const isDataValidated = await validateMeetup(data);
-      if (isDataValidated && validated) {
-        const meetupSaved = await Meetup.create(data);
-        res.status(201).send({
-          status: 201,
-          data: [{
-            topic: meetupSaved.topic,
-            location: meetupSaved.location,
-            happeningOn: new Date(meetupSaved.happeningOn),
-            tags: tagsName
-          }]
+      const error = await validateMeetup(data);
+      if (error.length > 0) {
+        return res.status(400).send({
+          status: 400,
+          error
         });
       }
+      const meetupSaved = await Meetup.create(data);
+      return res.status(201).send({
+        status: 201,
+        data: [{
+          topic: meetupSaved.topic,
+          location: meetupSaved.location,
+          happeningOn: new Date(meetupSaved.happeningOn),
+          tags: tagsName
+        }]
+      });
     } catch (e) {
-      res.status(400).send({
+      return res.status(400).send({
         status: 400,
         error: e.message
       });
@@ -119,14 +126,20 @@ class MeetupController {
     const data = req.body;
     data.meetup = parseInt(req.params.meetupId,
       10);
-    const meetup = Meetup.getById(data.meetup);
-    // Check if user has already replied to attend the meetup
-    const isUserNotReplied = RSVP.getUserReplyToAttend(data.user, data.meetup);
-
-    if (isUserNotReplied) {
-      try {
+    try {
+      const error = await validateRSVP(data);
+      if (error.length > 0) {
+        return res.status(400).send({
+          status: 400,
+          error
+        });
+      }
+      const meetup = await Meetup.getById(data.meetup);
+      // Check if user has already replied to attend the meetup
+      const isUserNotReplied = RSVP.getUserReplyToAttend(data);
+      if (isUserNotReplied) {
         const createdData = await RSVP.replyToAttend(data);
-        res.status(201).send({
+        return res.status(201).send({
           status: 201,
           data: [
             {
@@ -136,28 +149,28 @@ class MeetupController {
             }
           ]
         });
-      } catch (e) {
-        res.status(400).send({
-          status: 400,
-          error: e.message
-        });
       }
-    } else {
+
       const rsvpUpdated = RSVP.updateUserReplyToAttend(data);
-      if (rsvpUpdated !== undefined) {
-        res.status(201).send({
-          status: 201,
-          data: [
-            {
-              meetup: rsvpUpdated.meetup,
-              topic: meetup.topic,
-              status: rsvpUpdated.response
-            }
-          ]
-        });
-      }
+
+      return res.status(201).send({
+        status: 201,
+        data: [
+          {
+            meetup: rsvpUpdated.meetup,
+            topic: meetup.topic,
+            status: rsvpUpdated.response
+          }
+        ]
+      });
+    } catch (e) {
+      return res.status(400).send({
+        status: 400,
+        error: e.message
+      });
     }
   }
 }
+
 
 export default new MeetupController();

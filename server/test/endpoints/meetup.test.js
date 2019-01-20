@@ -57,21 +57,29 @@ describe('Questioner API Meetup Endpoints Tests', () => {
     };
 
     // Should create a meetup
-    it('Should return created meetup', async () => {
-      const res = await chai.request(app).post('/api/v1/meetups').send(meetup);
-      // .end((err, res) => {
-      res.should.have.status(201);
-      res.body.status.should.equal(201);
-      res.body.data[0].should.be.an('object');
-      // done();
+    it('Should return created meetup', (done) => {
+      chai.request(app)
+        .post('/api/v1/meetups')
+        .send(meetup)
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.status.should.equal(201);
+          res.body.data[0].should.be.an('object');
+          done();
+        });
     });
 
     // Should create a meetup
-    it('Should return error meetup already created', async () => {
-      const res = await chai.request(app).post('/api/v1/meetups').send(meetup);
-      // .end((err, res) => {
-      res.should.have.status(400);
-      // done();
+    it('Should return error meetup already created', (done) => {
+      chai.request(app)
+        .post('/api/v1/meetups')
+        .send(meetup)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.status.should.equal(400);
+          res.body.should.have.property('error');
+          done();
+        });
     });
 
     // Create meetup, Should return error tag not found
@@ -90,10 +98,19 @@ describe('Questioner API Meetup Endpoints Tests', () => {
 
     // Create meetup, Should return error - property is required
     it('Create meetup, should return error property is required', (done) => {
-      meetup.topic = undefined;
+      const newMeetup = {
+        topic: 'Andela learning communinity meetup',
+        descriptiion: 'description description description',
+        location: 'location',
+        images: ['image1', 'image2', 'image3'],
+        happeningOn: '2019-03-29 10:00',
+        tags: ['technology', 'programming'],
+        createdBy: 1,
+        createdOn: undefined
+      };
       chai.request(app)
         .post('/api/v1/meetups')
-        .send(meetup)
+        .send(newMeetup)
         .end((err, res) => {
           res.should.have.status(400);
           res.body.status.should.equal(400);
@@ -104,7 +121,7 @@ describe('Questioner API Meetup Endpoints Tests', () => {
 
     // Create meetup, Should return error - property is required
     it('Create meetup, should return error Meetup lenght to be at least 3 to 50', (done) => {
-      meetup.topic = 'bl';
+      meetup.topic = ' bl ';
       chai.request(app)
         .post('/api/v1/meetups')
         .send(meetup)
@@ -118,8 +135,8 @@ describe('Questioner API Meetup Endpoints Tests', () => {
 
     // Create meetup, Should return error - property is required
     it('Create meetup, should return error Meetup descriction and topic should string', (done) => {
-      meetup.topic = 45;
-      meetup.description = 34;
+      meetup.topic = '45';
+      meetup.description = '34';
       chai.request(app)
         .post('/api/v1/meetups')
         .send(meetup)
@@ -160,8 +177,22 @@ describe('Questioner API Meetup Endpoints Tests', () => {
     });
 
     // Create meetup, Should return error - property is required
+    it('Create meetup, should return error happeningOn should be valid date', (done) => {
+      meetup.happeningOn = '2019-03-09 INVALID_DATE';
+      chai.request(app)
+        .post('/api/v1/meetups')
+        .send(meetup)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.status.should.equal(400);
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+
+    // Create meetup, Should return error - property is required
     it('Create meetup, should return error CreateBy should be a number', (done) => {
-      meetup.created = "hjg";
+      meetup.createdBy = 'hjg';
       chai.request(app)
         .post('/api/v1/meetups')
         .send(meetup)

@@ -9,7 +9,7 @@ chai.should();
 describe('Question endpoints tests', () => {
   const question = {
     createdBy: 1,
-    title: 'title goes here',
+    title: 'title goes hereeeee',
     body: 'About Dart language for mobile and web apps, why would I learn a new language while I know Java, swift and javascript?'
   };
 
@@ -35,6 +35,8 @@ describe('Question endpoints tests', () => {
         .send(question)
         .end((err, res) => {
           res.should.have.status(400);
+          res.body.status.should.equal(400);
+          res.body.should.have.property('error');
           done();
         });
     });
@@ -56,6 +58,20 @@ describe('Question endpoints tests', () => {
     // should return error for shorter than 50 characters question
     it('Should return error if question is not atleast 50 characters long', (done) => {
       question.body = 'lest than 50 character long';
+      chai.request(app)
+        .post('/api/v1/meetups/1/questions')
+        .send(question)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.status.should.equal(400);
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+
+    // should return error for shorter than 50 characters question
+    it('Should return error if question is not atleast 50 characters long', (done) => {
+      question.title = '9.99999999999999999999999999';
       chai.request(app)
         .post('/api/v1/meetups/1/questions')
         .send(question)
@@ -126,6 +142,34 @@ describe('Question endpoints tests', () => {
         });
     });
 
+    // User should be able to downvote
+    it('Should return question votes if user downvote a question', (done) => {
+      voter.user = 3;
+      chai.request(app)
+        .patch('/api/v1/meetups/1/questions/1/downvote')
+        .send(voter)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.status.should.equal(200);
+          res.body.data[0].should.be.an('object');
+          done();
+        });
+    });
+
+    // Should return error for second downvote ---------
+    it('Should return question if user change to upvote', (done) => {
+      voter.user = 3;
+      chai.request(app)
+        .patch('/api/v1/meetups/1/questions/1/upvote')
+        .send(voter)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.status.should.equal(200);
+          res.body.data[0].should.be.an('object');
+          done();
+        });
+    });
+
     // Should return error for an invalid meetup id
     it('Should return error if the meetup given id is invalid', (done) => {
       chai.request(app)
@@ -147,6 +191,20 @@ describe('Question endpoints tests', () => {
         .end((err, res) => {
           res.should.have.status(404);
           res.body.status.should.equal(404);
+          res.body.should.have.property('error');
+          done();
+        });
+    });
+
+    // Should return error if user to has invalid id
+    it('Should return error if user given id is invalid', (done) => {
+      voter.user = 'INVALID_ID';
+      chai.request(app)
+        .patch('/api/v1/meetups/1/questions/1/upvote')
+        .send(voter)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.status.should.equal(400);
           res.body.should.have.property('error');
           done();
         });

@@ -38,7 +38,6 @@ class Question {
       try {
         const id = nextId(this.questions);
         const question = await useDataSchemas(data, id, this.questionSchema);
-        question.createdOn = Date.now();
         question.votes = 0;
         this.questions.push(question);
         resolve(question);
@@ -70,7 +69,6 @@ class Question {
    * @return {Object} Question
    */
   getById(id, meetupId) {
-    console.log(meetupId);
     const question = this.questions.find(q => (q.id === id) && (q.meetup === meetupId));
     return new Promise((resolve, reject) => {
       if (question === undefined) reject(new Error('The question with the given ID is not found'));
