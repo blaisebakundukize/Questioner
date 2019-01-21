@@ -2,8 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 
 // load routes
-import meetups from './api/v1/routes/meetups';
-import questions from './api/v1/routes/questions';
+import meetups from './routes/api/v1/meetups';
+import questions from './routes/api/v1/questions';
 
 const app = express();
 
