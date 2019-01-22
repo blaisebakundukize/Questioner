@@ -13,9 +13,9 @@ Questioner​ helps the meetup organizer prioritize questions to be answered. Ot
 | GET `/api/v1/meetups/<meetupID>` | Fetch a specific meetup |
 | POST `/api/v1/meetups/<meetupID>/rsvps` | Send RSVP on a meetup|
 | POST `/api/v1/meetups` | Create a meetup|
-| POST `/api/v1/questions` | Post a question|
-| PATCH `/api/v1/questions/upvote` | Upvote a question|
-| PATCH `/api/v1/questions/downvote` | Downvote a question|
+| POST `/api/v1/meetups/<meetupID>questions` | Post a question|
+| PATCH `/api/v1/meetups/<meetupID>questions/<questionID>/upvote` | Upvote a question|
+| PATCH `/api/v1/meetups/<meetupID>questions/<questionID>/downvote` | Downvote a question|
 
 #### Access API
 
@@ -28,7 +28,7 @@ For creating a meetup you have to post a json data:
 ```
 {
 	"topic": "Andela learning communinity meetup",
-	"description": "description",
+	"description": "description should be at least  50  characters long",
 	"location": "location",
 	"images": ["image1", "image2", "image3"],
 	"happeningOn": "2019-03-29 10:00",
@@ -42,7 +42,6 @@ For posting a question on meetup you have to post a json data:
 ```
 {
 	"createdBy": 2,
-	"meetup": 2,
 	"title": "title goes here",
 	"body": "About Dart language for mobile and web apps, why would I learn a new language while I know Java, swift and javascript?"
 }
@@ -62,7 +61,6 @@ For upvoting a question:
 ```
 {
 	"user": 2,
-	"question": 2
 }
 ```
 
@@ -71,17 +69,18 @@ For downvoting a question:
 ```
 {
 	"user": 3,
-	"question": 3
 }
 ```
 
 Data are stored in memory -> data structure and ids for meetups, questions and users are:
 
 ```
-meetups: 1, 2, 3, 4
-questions: 1, 2, 3
-users: 1 for admin, 2, 3
-tags: "technology", "web technology", "programming", "art", "music", "theater", "film", "creativity"
+meetups: Number (integer)
+questions: Number (integer)
+users: Number (integer)
+tags: Array Strings
+
+Data gets disappeared after closing the server
 ```
 
 #### Core Technology
