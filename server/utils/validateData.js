@@ -1,24 +1,25 @@
 /* eslint-disable no-restricted-globals */
-import joi from 'joi';
+import Joi from 'joi';
 
 /**
  * Validate user details
  * @param {Object} user - user details
+ * @returns {Promise} Resolve or reject
  */
 const validateUser = (user) => {
-  const schema = joi.object().keys({
-    firstname: joi.string().min(3).max(50).required(),
-    lastname: joi.string().min(3).max(50).required(),
-    othername: joi.string().allow('').min(3).max(50)
+  const schema = Joi.object().keys({
+    firstname: Joi.string().min(3).max(50).required(),
+    lastname: Joi.string().min(3).max(50).required(),
+    othername: Joi.string().allow('').min(3).max(50)
       .optional(),
-    email: joi.string().email().required(),
-    phoneNumber: joi.string().regex(/^\d{3}-\d{3}-\d{4}$/),
-    username: joi.string().min(8).max(50).required(),
-    password: joi.string().min(6).max(30).required()
+    email: Joi.string().email().required(),
+    phoneNumber: Joi.string().regex(/^\d{3}-\d{3}-\d{4}$/),
+    username: Joi.string().min(8).max(50).required(),
+    password: Joi.string().min(6).max(30).required()
   });
 
   return new Promise((resolve, reject) => {
-    const { error } = joi.validate(user, schema);
+    const { error } = Joi.validate(user, schema);
     if (error) {
       reject(error.details[0]);
     }

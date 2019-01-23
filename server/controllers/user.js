@@ -1,8 +1,8 @@
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import jwtKey from '../config/jwtkey';
+import Joi from 'joi';
 import user from '../models/user';
 import { validateUser } from '../utils/validateData';
+import generateJwtToken from '../middleware/generateJwtToken';
 
 /**
  * Controller of User model
@@ -27,7 +27,7 @@ class User {
         const salt = await bcrypt.genSalt(10);
         req.body.password = await bcrypt.hash(req.body.password, salt);
         const savedUser = await user.create(req.body);
-        const token = jwt.sign({ id: user.user_id, username: user.username, admin: user.is_admin }, jwtKey.jwtPrivateKey);
+        const token = generateJwtToken(user.user_id, user.username, user.is_admin);
         res.status(201).header('x-user-token', token).send({
           status: 201,
           data: [{ firstname: savedUser.firstname, lastname: savedUser.lastname, username: savedUser.username }]
@@ -37,6 +37,44 @@ class User {
       res.status(400).send({
         status: 400,
         error: error.message
+      });
+    }
+  }
+
+  /**
+   * Create User
+   * @param {Object} req - Request made by user
+   * @param {Object} res - Response
+   * @return {Object} Response
+   */
+  async login(req, res) {
+    const schema = Joi.object().keys({
+      username: Joi.string().min(8).max(50).required(),
+      password: Joi.string().min(6).max(30).required()
+    });
+    const { error } = Joi.validate(req.body, schema);
+    try {
+      if (error) {
+        throw new Error(error.details[0].message);
+      }
+      const getUser = await user.getUser(req.body.username);
+      const {
+        username,
+        firstname,
+        lastname,
+        password
+      } = getUser[0];
+      const validPassword = await bcrypt.compare(req.body.password, password);
+      if (!validPassword) throw new Error('Invalid email or password.');
+      const token = generateJwtToken(getUser[0].user_id, username, getUser[0].is_admin);
+      return res.status(200).header('x-user-token', token).send({
+        status: 200,
+        data: [{ firstname, lastname, username }]
+      });
+    } catch (err) {
+      return res.status(400).send({
+        status: 400,
+        error: err.message
       });
     }
   }
