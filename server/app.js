@@ -1,10 +1,16 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import jwtKey from './config/jwtkey';
 
 // load routes
 import meetups from './routes/api/v1/meetups';
 import questions from './routes/api/v1/questions';
 import users from './routes/api/v1/users';
+
+if (!jwtKey) {
+  console.error('FATAL ERROR: jwt private is not defined');
+  process.exit(1);
+}
 
 const app = express();
 

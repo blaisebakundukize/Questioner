@@ -14,7 +14,7 @@ const validateUser = (user) => {
     email: joi.string().email().required(),
     phoneNumber: joi.string().regex(/^\d{3}-\d{3}-\d{4}$/),
     username: joi.string().min(8).max(50).required(),
-    password: joi.string().min(5).max(30).required()
+    password: joi.string().min(6).max(30).required()
   });
 
   return new Promise((resolve, reject) => {
