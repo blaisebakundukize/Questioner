@@ -14,7 +14,6 @@ class Question {
   async addQuestion(data) {
     const queryAddQuestion = 'INSERT INTO questions(created_by, meetup, title, body) VALUES ($1, $2, $3, $4)returning *';
     const values = [data.createdBy, data.meetup, data.title, data.body];
-    console.log(data);
     return new Promise(async (resolve, reject) => {
       try {
         const { rows } = await db.query(queryAddQuestion, values);
@@ -50,14 +49,18 @@ class Question {
   /**
    * Get a specif question
    * @param {Number} id - Question identifier
-   * @param {Number} meetupId - Meetup identifier with the Question
    * @return {Object} Question
    */
-  getById(id, meetupId) {
-    const question = this.questions.find(q => (q.id === id) && (q.meetup === meetupId));
-    return new Promise((resolve, reject) => {
-      if (question === undefined) reject(new Error('The question with the given ID is not found'));
-      resolve(question);
+  getById(id) {
+    const queryGetQuestion = 'SELECT * FROM questions WHERE question_id = $1';
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { rows } = await db.query(queryGetQuestion, [id]);
+        if (!rows[0]) reject(new Error('The question with the given ID does not found'));
+        resolve(rows[0]);
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 
@@ -68,47 +71,48 @@ class Question {
    * @return {Object} User vote
    */
   getUserVote(userId, questionId) {
-    let voter;
-    voter = this.downvoters.find(d => d.user === userId && d.question === questionId);
-    if (voter === undefined) {
-      voter = this.upvoters.find(u => u.user === userId && u.question === questionId);
-      if (voter !== undefined) {
-        voter.voteType = 'upvote';
+    const queryGetUserVote = 'SELECT * FROM voters WHERE "user" = $1 AND question = $2';
+
+    const values = [userId, questionId];
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { rows } = await db.query(queryGetUserVote, values);
+        resolve(rows);
+      } catch (error) {
+        reject(error);
       }
-    }
-    return voter;
+    });
   }
 
   /**
-   * Upvote questions
-   * @param {Object} voter - User vote data
+   * Count question downvotes
+   * @param {Number} questionId - Question id
    */
-  vote(voter) {
-    const alreadyVote = this.getUserVote(voter.user, voter.question);
-    return new Promise((resolve, reject) => {
-      let votePoints;
-      if (alreadyVote === undefined) {
-        if (voter.voteType === 'upvote') {
-          votePoints = 1;
-        } else {
-          votePoints = -1;
-        }
-      } else if (alreadyVote.voteType) {
-        if (voter.voteType === 'upvote') {
-          reject(new Error('You have already upvoted'));
-        } else {
-          const userVotesIndex = this.upvoters.findIndex(v => v.user === voter.user && v.meetup === voter.meetup);
-          this.upvoters.splice(userVotesIndex, 1);
-          votePoints = -2;
-        }
-      } else if (voter.voteType === 'downvote') {
-        reject(new Error('You have already downvoted'));
-      } else {
-        const userVotesIndex = this.downvoters.findIndex(v => v.user === voter.user && v.meetup === voter.meetup);
-        this.downvoters.splice(userVotesIndex, 1);
-        votePoints = 2;
+  countDownvotes(questionId) {
+    const queryCountDowvotes = 'SELECT COUNT(vote_type) As downvotes FROM voters WHERE vote_type = $1 AND question = $2';
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { rows } = await db.query(queryCountDowvotes, ['downvote', questionId]);
+        resolve(parseInt(rows[0].downvotes, 10));
+      } catch (error) {
+        reject(error);
       }
-      resolve({ ...voter, votePoints });
+    });
+  }
+
+  /**
+   * Count question upvotes
+   * @param {Number} questionId - Question id
+   */
+  countUpvotes(questionId) {
+    const queryCountUpvotes = 'SELECT COUNT(vote_type) AS upvotes FROM voters WHERE vote_type = $1 AND question = $2';
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { rows } = await db.query(queryCountUpvotes, ['upvote', questionId]);
+        resolve(parseInt(rows[0].upvotes, 10));
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 
@@ -119,20 +123,21 @@ class Question {
   async saveVotes(voter) {
     return new Promise(async (resolve, reject) => {
       try {
-        const votes = await this.vote(voter);
-        let nId;
-        if (votes.voteType === 'upvote') {
-          nId = nextId(this.upvoters);
-          this.upvoters.push({ id: nId, user: votes.user, question: votes.question });
+        const votes = await this.getUserVote(voter.user, voter.question);
+        if (!votes[0]) {
+          const querySaveVote = 'INSERT INTO voters("user", question, vote_type) VALUES ($1, $2, $3)returning *';
+          const values = [voter.user, voter.question, voter.voteType];
+
+          const { rows } = await db.query(querySaveVote, values);
+          resolve(rows[0]);
+        } else if (votes[0].vote_type === voter.voteType) {
+          reject(new Error(`You have already ${voter.voteType}d the question`));
         } else {
-          nId = nextId(this.downvoters);
-          this.downvoters.push({ id: nId, user: votes.user, question: votes.question });
+          const queryUpdateVote = 'UPDATE voters SET vote_type = $1 WHERE "user" = $2 AND question = $3 returning *';
+          const values = [voter.voteType, voter.user, voter.question];
+          const { rows } = await db.query(queryUpdateVote, values);
+          resolve(rows[0]);
         }
-        const questionIndex = this.questions.findIndex(q => q.id === votes.question);
-        this.questions[questionIndex].votes += votes.votePoints;
-        const upvotes = this.upvoters.filter(up => up.question === votes.question);
-        const downvotes = this.downvoters.filter(dw => dw.question === votes.question);
-        resolve({ upvotes: upvotes.length, downvotes: downvotes.length });
       } catch (error) {
         reject(error);
       }
