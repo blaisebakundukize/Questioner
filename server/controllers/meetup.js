@@ -48,6 +48,33 @@ class Meetup {
       });
     }
   }
+
+  /**
+   * Retrieve all meetups
+   * @param {Object} req - request made by the user
+   * @param {Object} res - response to be given to the user
+   * @return {Object} Response
+   */
+  async getMeetups(req, res) {
+    const path = req.path.toLowerCase().split('/').find(p => p === 'upcoming');
+    try {
+      let meetups = [];
+      if (typeof path !== 'undefined') {
+        meetups = await meetup.getUpcoming();
+      } else {
+        meetups = await meetup.getAll();
+      }
+      res.status(200).send({
+        status: 200,
+        data: meetups
+      });
+    } catch (error) {
+      res.status(404).send({
+        status: 404,
+        error: error.message
+      });
+    }
+  }
 }
 
 

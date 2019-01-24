@@ -46,6 +46,27 @@ class Meetup {
       }
     });
   }
+
+  /**
+   * Get all meetups
+   * @returns {Array} An array of all meetups
+   */
+  getAll() {
+    const queryGetAllMeetups = 'SELECT m.meetup_id AS id, m.topic AS title, m.description, m.location, m.happening_on AS "happeningOn", (select array_agg(t.name) from tags t INNER JOIN meetup_has_tags mht ON mht.tag = t.tag_id WHERE mht.meetup = m.meetup_id) AS tags FROM meetups m';
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { rows } = await db.query(queryGetAllMeetups);
+        if (rows.length === 0) {
+          reject(new Error('Meetups are not found'));
+        } else {
+          resolve(rows);
+        }
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
 }
 
 export default new Meetup();
