@@ -8,7 +8,8 @@ import jwtKey from '../config/jwtkey';
  * @param {Method} next - passing control to other in a route
  */
 function auth(req, res, next) {
-  const token = req.header('x-user-auth');
+  const token = req.header('x-user-token');
+  console.log(token);
   if (!token) {
     res.status(401).send({
       status: 401,

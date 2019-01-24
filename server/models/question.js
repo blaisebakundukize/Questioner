@@ -10,25 +10,6 @@ import useDataSchemas from '../utils/useDataSchemas';
  */
 class Question {
   /**
-   * @constructor
-   */
-  constructor() {
-    this.questions = [];
-    this.questionSchema = {
-      id: undefined,
-      createdOn: new Date(),
-      createdBy: undefined,
-      meetup: undefined,
-      title: null,
-      body: undefined,
-      votes: null,
-      updatedOn: new Date()
-    };
-    this.upvoters = [];
-    this.downvoters = [];
-  }
-
-  /**
    * Add meetup's question to a database
    * @param {Object} data - An object of question fields
    * @return {Object} Created question

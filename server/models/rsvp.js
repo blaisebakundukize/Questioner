@@ -1,5 +1,5 @@
-import userDataSchema from '../utils/useDataSchemas';
-import nextId from '../utils/nextId';
+import db from '../database/index';
+
 /**
  * This model represents meetup's rsvp
  * @class
@@ -7,35 +7,28 @@ import nextId from '../utils/nextId';
  */
 class RSVP {
   /**
-   * @constructor
-   */
-  constructor() {
-    this.rsvps = [];
-    this.rsvpSchema = {
-      id: undefined,
-      meetup: undefined,
-      user: undefined,
-      response: undefined,
-      createdOn: new Date(),
-      updatedOn: new Date()
-    };
-  }
-
-  /**
    * Get user rsvp reply of a meetup
    * @param {Number} user - User id
    * @param {Number} meetup - meetup id
    * @return {Object} RSVP replied by a user
    */
   getUserReplyToAttend(data) {
-    const rsvp = this.rsvps.find(r => r.user === data.user && r.meetup === data.meetup);
-    let isResponseNew = false;
-    if (rsvp === undefined) {
-      isResponseNew = true;
-    } else if (rsvp.response.toLowerCase() === data.response.toLowerCase()) {
-      throw new Error(`Your response was '${data.response}' too!`);
-    }
-    return isResponseNew;
+    const getUserRsvp = 'SELECT * FROM rsvps WHERE meetup = $1 AND "user" = $2';
+    return new Promise(async (resolve, reject) => {
+      try {
+        const values = [data.meetup, data.user];
+        const { rows } = await db.query(getUserRsvp, values);
+        let isResponseNew = false;
+        if (!rows[0]) {
+          isResponseNew = true;
+        } else if (rows[0].response.toLowerCase() === data.response.toLowerCase()) {
+          reject(new Error(`Your response was '${data.response}' too!`));
+        }
+        resolve(isResponseNew);
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 
   /**
@@ -44,9 +37,17 @@ class RSVP {
    * @return {Object} User Update rsvp reply
    */
   updateUserReplyToAttend(data) {
-    const index = this.rsvps.findIndex(rsvp => rsvp.user === data.user && rsvp.meetup === data.meetup);
-    this.rsvps[index].response = data.response;
-    return this.rsvps[index];
+    const queryUpdateRsvp = 'UPDATE rsvps SET response = $1 WHERE "user" = $2 AND meetup = $3 returning *';
+    const values = [data.response, data.user, data.meetup];
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { rows } = await db.query(queryUpdateRsvp, values);
+        resolve(rows[0]);
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 
   /**
@@ -54,13 +55,18 @@ class RSVP {
    * @param {Object} data - An Object of user, meetup and rsvp status
    * @return {Object} rsvp - Data format for rsvp
    */
-  async replyToAttend(data) {
-    const nId = nextId(this.rsvps);
-    return new Promise(async (resolve) => {
-      const rsvp = await userDataSchema(data, nId, this.rsvpSchema);
-      // Save user rsvp to database
-      this.rsvps.push(rsvp);
-      resolve(rsvp);
+  replyToAttend(data) {
+    const queryReplyToAttend = 'INSERT INTO rsvps(meetup, "user", response) VALUES ($1, $2, $3)returning *';
+
+    const values = [data.meetup, data.user, data.response];
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { rows } = await db.query(queryReplyToAttend, values);
+        resolve(rows[0]);
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 }

@@ -97,7 +97,65 @@ class Meetup {
       });
     }
   }
-}
 
+  /**
+   * Reply to attend a meetup
+   * @param {Object} req - request made by the user
+   * @param {Object} res - response to be given to the user
+   * @return {Object} Response
+   */
+  async replyToAttend(req, res) {
+    const data = req.body;
+    data.meetup = parseInt(req.params.meetupId,
+      10);
+    data.user = req.user.userId;
+    console.log(data);
+    try {
+      const error = await validateRSVP(data);
+      if (error.length > 0) {
+        return res.status(400).send({
+          status: 400,
+          error
+        });
+      }
+      const meetupRetrieved = await meetup.getById(data.meetup);
+      // console.log(meetupRetrieved);
+      // Check if user has already replied to attend the meetup
+      const isUserNotReplied = await RSVP.getUserReplyToAttend(data);
+      // console.log(isUserNotReplied);
+      if (isUserNotReplied) {
+        const createdData = await RSVP.replyToAttend(data);
+        return res.status(201).send({
+          status: 201,
+          data: [
+            {
+              meetup: createdData.meetup,
+              topic: meetupRetrieved.topic,
+              status: createdData.response
+            }
+          ]
+        });
+      }
+
+      const rsvpUpdated = await RSVP.updateUserReplyToAttend(data);
+
+      return res.status(201).send({
+        status: 201,
+        data: [
+          {
+            meetup: rsvpUpdated.meetup,
+            topic: meetup.topic,
+            status: rsvpUpdated.response
+          }
+        ]
+      });
+    } catch (e) {
+      return res.status(400).send({
+        status: 400,
+        error: e.message
+      });
+    }
+  }
+}
 
 export default new Meetup();
