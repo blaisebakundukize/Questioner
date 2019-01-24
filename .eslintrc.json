@@ -8,6 +8,7 @@
     },
     "rules": {
         "no-console": "off",
+        "no-await-in-loop": "off",
         "linebreak-style": 0,
         "max-len": 0,
         "comma-dangle": [
