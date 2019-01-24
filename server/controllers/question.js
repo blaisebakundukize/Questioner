@@ -17,9 +17,11 @@ class QuestionController {
   async createQuestion(req, res) {
     const data = req.body;
     data.meetup = parseInt(req.params.meetupId, 10);
+    data.createdBy = req.user.userId;
     try {
       // eslint-disable-next-line no-unused-vars
       const isMeetupAvailable = await Meetup.getById(data.meetup);
+      console.log(isMeetupAvailable);
       const error = await validateQuestion(data);
       if (error.length > 0) {
         return res.status(400).send({

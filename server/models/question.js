@@ -1,7 +1,4 @@
-// import questions, { questionSchema } from '../database/questions';
-// import voters, { voterSchema } from '../database/voters';
-import nextId from '../utils/nextId';
-import useDataSchemas from '../utils/useDataSchemas';
+import db from '../database/index';
 
 /**
  * Class represents meetup's questions
@@ -15,12 +12,16 @@ class Question {
    * @return {Object} Created question
    */
   async addQuestion(data) {
-    return new Promise(async (resolve) => {
-      const id = nextId(this.questions);
-      const question = await useDataSchemas(data, id, this.questionSchema);
-      question.votes = 0;
-      this.questions.push(question);
-      resolve(question);
+    const queryAddQuestion = 'INSERT INTO questions(created_by, meetup, title, body) VALUES ($1, $2, $3, $4)returning *';
+    const values = [data.createdBy, data.meetup, data.title, data.body];
+    console.log(data);
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { rows } = await db.query(queryAddQuestion, values);
+        resolve(rows[0]);
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 
@@ -29,12 +30,19 @@ class Question {
    * @param {Object} question - question to create
    */
   getQuestionByItsProperties(question) {
-    return new Promise((resolve, reject) => {
-      const questionFound = this.questions.find(q => (q.title === question.title) && (q.meetup === question.meetup) && (q.body === question.body));
-      if (questionFound === undefined) {
-        resolve(true);
-      } else {
-        reject(new Error('Question is already asked'));
+    const queryGetQuery = 'SELECT * FROM questions WHERE title = $1 AND meetup = $2 AND body = $3';
+
+    const values = [question.title, question.meetup, question.body];
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { rows } = await db.query(queryGetQuery, values);
+        if (!rows[0]) {
+          resolve(true);
+        } else {
+          reject(new Error('Question is already asked'));
+        }
+      } catch (error) {
+        reject(error);
       }
     });
   }
