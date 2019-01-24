@@ -1,4 +1,32 @@
 /* eslint-disable no-restricted-globals */
+import Joi from 'joi';
+
+/**
+ * Validate user details
+ * @param {Object} user - user details
+ * @returns {Promise} Resolve or reject
+ */
+const validateUser = (user) => {
+  const schema = Joi.object().keys({
+    firstname: Joi.string().min(3).max(50).required(),
+    lastname: Joi.string().min(3).max(50).required(),
+    othername: Joi.string().allow('').min(3).max(50)
+      .optional(),
+    email: Joi.string().email().required(),
+    phoneNumber: Joi.string().regex(/^\d{3}-\d{3}-\d{4}$/),
+    username: Joi.string().min(8).max(50).required(),
+    password: Joi.string().min(6).max(30).required()
+  });
+
+  return new Promise((resolve, reject) => {
+    const { error } = Joi.validate(user, schema);
+    if (error) {
+      reject(error.details[0]);
+    }
+    resolve(true);
+  });
+};
+
 /**
  * Validate function for a new meetup
  * @param {Object} data - Data to validate
@@ -93,5 +121,6 @@ export {
   validateMeetup,
   validateQuestion,
   validateUserId,
-  validateRSVP
+  validateRSVP,
+  validateUser
 };
