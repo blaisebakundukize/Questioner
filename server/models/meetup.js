@@ -88,6 +88,29 @@ class Meetup {
       }
     });
   }
+
+  /**
+ * Get a meetup by id
+ * @param {number} id - The primary key of a meetup to find
+ * @return {object} Data for the specified meetup id
+ */
+  getById(id) {
+    const queryGetById = 'SELECT m.meetup_id AS id, m.topic AS title, m.description, m.location, m.happening_on AS "happeningOn", (select array_agg(t.name) from tags t INNER JOIN meetup_has_tags mht ON mht.tag = t.tag_id WHERE mht.meetup = m.meetup_id) AS tags FROM meetups m WHERE m.meetup_id = $1';
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { rows } = await db.query(queryGetById, [id]);
+        console.log(id);
+        if (!rows[0]) {
+          reject(new Error('Meetup with the given id does not exist'));
+        } else {
+          resolve(rows[0]);
+        }
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
 }
 
 export default new Meetup();

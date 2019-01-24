@@ -75,6 +75,28 @@ class Meetup {
       });
     }
   }
+
+  /**
+ * Get a specific meetup record
+ * @param {Object} req - request made by the user
+ * @param {Object} res - response to be given to the user
+ * @return {Object} Response
+ */
+  async getMeetupById(req, res) {
+    const id = parseInt(req.params.meetupId, 10);
+    try {
+      const data = await meetup.getById(id);
+      res.status(200).send({
+        status: 200,
+        data
+      });
+    } catch (error) {
+      res.status(404).send({
+        status: 404,
+        error: error.message
+      });
+    }
+  }
 }
 
 
