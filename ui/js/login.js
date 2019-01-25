@@ -23,7 +23,7 @@ const Controller = (function (UICrtl) {
       const username = inputLoginUsername.value;
       const password = inputLoginPassword.value;
       if (username === 'admin' && password === 'admin') {
-        window.location.href = "../pages/user/admin/meetup/meetups.html";
+        window.location.href = "./pages/user/admin/meetup/meetups.html";
         console.log('blaise')
       } else {
         window.location.href = "./pages/meetup/meetups.html";
