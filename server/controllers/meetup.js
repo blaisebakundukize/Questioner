@@ -17,34 +17,42 @@ class Meetup {
    */
   async createMeetup(req, res) {
     const data = req.body;
+    data.createdBy = req.user.userId;
     const tagsName = data.tags;
-    try {
-      const error = await validateMeetup(data);
-      if (error.length > 0) {
+    if (req.user.isAdmin) {
+      try {
+        const error = await validateMeetup(data);
+        if (error.length > 0) {
+          return res.status(400).send({
+            status: 400,
+            error
+          });
+        }
+        await meetup.getByPropertyValues(data);
+        const tagsId = await Tag.createUnfoundTags(tagsName);
+        const meetupSaved = await meetup.create(data);
+        await Tag.meetupHasTags(tagsId, meetupSaved.meetup_id);
+        return res.status(201).send({
+          status: 201,
+          data: [{
+            id: meetupSaved.meetup_id,
+            topic: meetupSaved.topic,
+            description: meetupSaved.description,
+            location: meetupSaved.location,
+            happeningOn: meetupSaved.happening_on,
+            tags: tagsName
+          }]
+        });
+      } catch (e) {
         return res.status(400).send({
           status: 400,
-          error
+          error: e.message
         });
       }
-      await meetup.getByPropertyValues(data);
-      const tagsId = await Tag.createUnfoundTags(tagsName);
-      const meetupSaved = await meetup.create(data);
-      await Tag.meetupHasTags(tagsId, meetupSaved.meetup_id);
-      return res.status(201).send({
-        status: 201,
-        data: [{
-          id: meetupSaved.meetup_id,
-          topic: meetupSaved.topic,
-          description: meetupSaved.description,
-          location: meetupSaved.location,
-          happeningOn: meetupSaved.happening_on,
-          tags: tagsName
-        }]
-      });
-    } catch (e) {
-      return res.status(400).send({
-        status: 400,
-        error: e.message
+    } else {
+      return res.status(403).send({
+        status: 403,
+        error: 'You are not allow to create a meetup'
       });
     }
   }
@@ -109,7 +117,6 @@ class Meetup {
     data.meetup = parseInt(req.params.meetupId,
       10);
     data.user = req.user.userId;
-    console.log(data);
     try {
       const error = await validateRSVP(data);
       if (error.length > 0) {
@@ -119,7 +126,6 @@ class Meetup {
         });
       }
       const meetupRetrieved = await meetup.getById(data.meetup);
-      // console.log(meetupRetrieved);
       // Check if user has already replied to attend the meetup
       const isUserNotReplied = await RSVP.getUserReplyToAttend(data);
       // console.log(isUserNotReplied);
@@ -130,7 +136,7 @@ class Meetup {
           data: [
             {
               meetup: createdData.meetup,
-              topic: meetupRetrieved.topic,
+              topic: meetupRetrieved.title,
               status: createdData.response
             }
           ]
@@ -144,7 +150,7 @@ class Meetup {
         data: [
           {
             meetup: rsvpUpdated.meetup,
-            topic: meetup.topic,
+            topic: meetupRetrieved.title,
             status: rsvpUpdated.response
           }
         ]

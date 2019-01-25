@@ -143,6 +143,23 @@ class Question {
       }
     });
   }
+
+  /**
+   * Create a comment
+   * @param {Object} data - Comments details
+   */
+  createComment(data) {
+    const queryCreateComment = 'INSERT INTO comments(created_by, question, body) VALUES($1, $2, $3) returning *';
+    const values = [data.user, data.question, data.body];
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { rows } = await db.query(queryCreateComment, values);
+        resolve(rows[0]);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
 }
 
 export default new Question();

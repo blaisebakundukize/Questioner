@@ -1,3 +1,4 @@
+import Joi from 'joi';
 import Question from '../models/question';
 import { validateQuestion } from '../utils/validateData';
 import Meetup from '../models/meetup';
@@ -89,6 +90,40 @@ class QuestionController {
       return res.status(400).send({
         status: 400,
         error: error.message
+      });
+    }
+  }
+
+  /**
+   * Vote questions
+   * @param {Object} req - Request made by the user
+   * @param {Object} res - Response to the user
+   * @return {Object} Response
+   */
+  async createComment(req, res) {
+    const data = req.body;
+    data.user = req.user.userId;
+    data.question = parseInt(req.params.questionId, 10);
+    try {
+      if (data.body.length < 15) {
+        throw new Error('Body length must be at least 15 characters long');
+      }
+      const questionAvailable = await Question.getById(data.question);
+      console.log(questionAvailable);
+      const savedComment = await Question.createComment(data);
+      res.status(201).send({
+        status: 201,
+        data: {
+          question: questionAvailable.question_id,
+          title: questionAvailable.title,
+          body: questionAvailable.body,
+          comment: savedComment.body
+        }
+      });
+    } catch (err) {
+      res.status(400).send({
+        status: 400,
+        error: err.message
       });
     }
   }
