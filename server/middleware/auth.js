@@ -8,22 +8,23 @@ import jwtKey from '../config/jwtkey';
  * @param {Method} next - passing control to other in a route
  */
 function auth(req, res, next) {
-  const token = req.header('x-user-auth');
-  if (!token) {
-    res.status(401).send({
-      status: 401,
-      error: 'Access denied. No token provided'
-    });
-  }
-
+  const token = req.header('x-user-token');
+  let codeStatus = 400;
   try {
+    if (token === undefined) {
+      codeStatus = 401;
+      throw new Error('Access denied. No token provided');
+    }
     const decoded = jwt.decode(token, jwtKey.jwtPrivateKey);
+    if (decoded === null) {
+      throw new Error('Invalid token.');
+    }
     req.user = decoded;
     next();
   } catch (err) {
-    res.status(400).send({
-      status: 400,
-      error: 'Invalid token.'
+    res.status(codeStatus).send({
+      status: codeStatus,
+      error: err.message
     });
   }
 }

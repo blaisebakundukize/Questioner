@@ -1,8 +1,11 @@
 import { Router } from 'express';
-import QuestionController from '../../../controllers/questionController';
+import Question from '../../../controllers/question';
+import auth from '../../../middleware/auth';
 
 const router = Router();
 
-router.post('/', QuestionController.createQuestion);
-// router.patch('/downvote', QuestionController.voteQuestion);
+router.patch('/:questionId/upvote', auth, Question.voteQuestion);
+router.patch('/:questionId/downvote', auth, Question.voteQuestion);
+router.post('/:questionId/comments', auth, Question.createComment);
+
 export default router;

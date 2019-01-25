@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 // Use routes
 app.use('/api/v1/meetups', meetups);
 app.use('/api/v1/questions', questions);
-app.use('/api/v1/users', users);
+app.use('/api/v1/auth', users);
 
 // Handler for 404 - Resource not found
 app.use((req, res) => {

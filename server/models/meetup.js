@@ -1,6 +1,4 @@
-import userDataSchema from '../utils/useDataSchemas';
-import nextId from '../utils/nextId';
-
+import db from '../database/index';
 /**
  * This model represents meetup data
  * @class
@@ -8,40 +6,20 @@ import nextId from '../utils/nextId';
  */
 class Meetup {
   /**
-   * @constructor
-   */
-  constructor() {
-    this.meetups = [];
-    this.meetupsSchema = {
-      id: undefined,
-      topic: undefined,
-      description: undefined,
-      location: undefined,
-      images: null,
-      happeningOn: undefined,
-      tags: undefined,
-      createdBy: undefined,
-      createdOn: new Date(),
-      updatedOn: null
-    };
-  }
-
-  /**
    * Create a new meetup
    * @param {Object} data - An object of properties for creating a meetup
    * @return {object} An object of created meetup
    */
-  async create(data) {
-    const nId = nextId(this.meetups);
+  create(data) {
+    const createMeetup = 'INSERT INTO meetups(topic, description, location, happening_on, created_by, image_urls) VALUES($1, $2, $3, $4, $5, $6)returning *';
+
+    const values = [data.topic, data.description, data.location, data.happeningOn, data.createdBy, data.images];
+
     return new Promise(async (resolve, reject) => {
       try {
-        // eslint-disable-next-line no-unused-vars
-        const isTheMeetupNew = await this.getByPropertyValues(data);
-
-        const meetup = await userDataSchema(data, nId, this.meetupsSchema);
-
-        this.meetups.push(meetup);
-        resolve(meetup);
+        const { rows } = await db.query(createMeetup, values);
+        // console.log(rows);
+        resolve(rows[0]);
       } catch (error) {
         reject(error);
       }
@@ -54,12 +32,17 @@ class Meetup {
    * @return {object} Data for the specified meetup id
    */
   getByPropertyValues(data) {
-    return new Promise((resolve, reject) => {
-      const meetup = this.meetups.find(m => m.topic === data.topic && m.description === data.description && m.location === data.location && m.happeningOn === data.happeningOn);
-      if (meetup !== undefined) {
-        reject(new Error('Meetup is already stored'));
-      } else {
+    const getMeetupByProperties = 'SELECT * FROM meetups WHERE topic = $1 AND description = $2 AND happening_on = $3 AND location = $4';
+    const values = [data.topic, data.description, data.happeningOn, data.location];
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { rows } = await db.query(getMeetupByProperties, values);
+        if (rows[0]) {
+          reject(new Error('Meetup is already stored'));
+        }
         resolve(true);
+      } catch (error) {
+        reject(error);
       }
     });
   }
@@ -69,43 +52,62 @@ class Meetup {
    * @returns {Array} An array of all meetups
    */
   getAll() {
-    return new Promise((resolve, reject) => {
-      const meetupsLength = this.meetups.length;
-      if (meetupsLength === 0) {
-        reject(new Error('Meetups are not found'));
-      } else {
-        resolve(this.meetups);
+    const queryGetAllMeetups = 'SELECT m.meetup_id AS id, m.topic AS title, m.description, m.location, m.happening_on AS "happeningOn", (select array_agg(t.name) from tags t INNER JOIN meetup_has_tags mht ON mht.tag = t.tag_id WHERE mht.meetup = m.meetup_id) AS tags FROM meetups m';
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { rows } = await db.query(queryGetAllMeetups);
+        if (rows.length === 0) {
+          reject(new Error('Meetups are not found'));
+        } else {
+          resolve(rows);
+        }
+      } catch (err) {
+        reject(err);
       }
     });
   }
 
   /**
-   * Get upcoming meetups
-   * @returns {Array} An array of upcoming meetups
-   */
+ * Get upcoming meetups
+ * @returns {Array} An array of upcoming meetups
+ */
   getUpcoming() {
-    return new Promise((resolve, reject) => {
-      const upcomings = this.meetups.filter(meetup => new Date(meetup.happeningOn).getTime() > Date.now());
-      if (upcomings.length === 0) {
-        reject(new Error('Meetups are not found'));
-      } else {
-        resolve(upcomings);
+    const queryGetUpcoming = 'SELECT m.meetup_id AS id, m.topic AS title, m.description, m.location, m.happening_on AS "happeningOn", (select array_agg(t.name) from tags t INNER JOIN meetup_has_tags mht ON mht.tag = t.tag_id WHERE mht.meetup = m.meetup_id) AS tags FROM meetups m WHERE m.happening_on >= (Now())';
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { rows } = await db.query(queryGetUpcoming);
+        if (rows.length === 0) {
+          reject(new Error('Meetups are not found'));
+        } else {
+          resolve(rows);
+        }
+      } catch (error) {
+        reject(error);
       }
     });
   }
 
   /**
-   * Get a meetup by id
-   * @param {number} id - The primary key of a meetup to find
-   * @return {object} Data for the specified meetup id
-   */
+ * Get a meetup by id
+ * @param {number} id - The primary key of a meetup to find
+ * @return {object} Data for the specified meetup id
+ */
   getById(id) {
-    return new Promise((resolve, reject) => {
-      const meetup = this.meetups.find(item => item.id === id);
-      if (meetup === undefined) {
-        reject(new Error('Meetup with the given id is not exist'));
-      } else {
-        resolve(meetup);
+    const queryGetById = 'SELECT m.meetup_id AS id, m.topic AS title, m.description, m.location, m.happening_on AS "happeningOn", (select array_agg(t.name) from tags t INNER JOIN meetup_has_tags mht ON mht.tag = t.tag_id WHERE mht.meetup = m.meetup_id) AS tags FROM meetups m WHERE m.meetup_id = $1';
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { rows } = await db.query(queryGetById, [id]);
+        console.log(id);
+        if (!rows[0]) {
+          reject(new Error('Meetup with the given id does not exist'));
+        } else {
+          resolve(rows[0]);
+        }
+      } catch (error) {
+        reject(error);
       }
     });
   }

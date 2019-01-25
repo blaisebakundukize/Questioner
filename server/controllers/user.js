@@ -30,7 +30,12 @@ class User {
         const token = generateJwtToken(user.user_id, user.username, user.is_admin);
         res.status(201).header('x-user-token', token).send({
           status: 201,
-          data: [{ firstname: savedUser.firstname, lastname: savedUser.lastname, username: savedUser.username }]
+          data: [{
+            firstname: savedUser.firstname,
+            lastname: savedUser.lastname,
+            username: savedUser.username,
+            token
+          }]
         });
       }
     } catch (error) {
@@ -69,7 +74,12 @@ class User {
       const token = generateJwtToken(getUser[0].user_id, username, getUser[0].is_admin);
       return res.status(200).header('x-user-token', token).send({
         status: 200,
-        data: [{ firstname, lastname, username }]
+        data: [{
+          firstname,
+          lastname,
+          username,
+          token
+        }]
       });
     } catch (err) {
       return res.status(400).send({

@@ -1,5 +1,6 @@
+import Joi from 'joi';
 import Question from '../models/question';
-import { validateQuestion, validateUserId } from '../utils/validateData';
+import { validateQuestion } from '../utils/validateData';
 import Meetup from '../models/meetup';
 
 /**
@@ -17,6 +18,7 @@ class QuestionController {
   async createQuestion(req, res) {
     const data = req.body;
     data.meetup = parseInt(req.params.meetupId, 10);
+    data.createdBy = req.user.userId;
     try {
       // eslint-disable-next-line no-unused-vars
       const isMeetupAvailable = await Meetup.getById(data.meetup);
@@ -56,39 +58,72 @@ class QuestionController {
   async voteQuestion(req, res) {
     const IsVoteType = req.path.toLowerCase().split('/').find(p => p === 'upvote');
     const voteType = IsVoteType === undefined ? 'downvote' : 'upvote';
-    const data = req.body;
+    const data = {};
     data.voteType = voteType;
-    data.meetup = parseInt(req.params.meetupId, 10);
     data.question = parseInt(req.params.questionId, 10);
+    data.user = req.user.userId;
     try {
-      let meetup;
       let questionAvailable;
-      // eslint-disable-next-line no-unused-vars
-      const isUserIdValid = await validateUserId(data.user);
       try {
-        meetup = await Meetup.getById(data.meetup);
-        questionAvailable = await Question.getById(data.question, data.meetup);
+        questionAvailable = await Question.getById(data.question);
       } catch (error) {
         return res.status(404).send({
           status: 404,
           error: error.message
         });
       }
+      // eslint-disable-next-line no-unused-vars
       const votes = await Question.saveVotes(data);
+      const downvotes = await Question.countDownvotes(data.question);
+      const upvotes = await Question.countUpvotes(data.question);
       return res.status(200).send({
         status: 200,
         data: [{
-          meetup: meetup.id,
+          meetup: questionAvailable.meetup,
           title: questionAvailable.title,
           body: questionAvailable.body,
-          downvotes: votes.downvotes,
-          upvotes: votes.upvotes
+          downvotes,
+          upvotes
         }]
       });
     } catch (error) {
       return res.status(400).send({
         status: 400,
         error: error.message
+      });
+    }
+  }
+
+  /**
+   * Vote questions
+   * @param {Object} req - Request made by the user
+   * @param {Object} res - Response to the user
+   * @return {Object} Response
+   */
+  async createComment(req, res) {
+    const data = req.body;
+    data.user = req.user.userId;
+    data.question = parseInt(req.params.questionId, 10);
+    try {
+      if (data.body.length < 15) {
+        throw new Error('Body length must be at least 15 characters long');
+      }
+      const questionAvailable = await Question.getById(data.question);
+      console.log(questionAvailable);
+      const savedComment = await Question.createComment(data);
+      res.status(201).send({
+        status: 201,
+        data: {
+          question: questionAvailable.question_id,
+          title: questionAvailable.title,
+          body: questionAvailable.body,
+          comment: savedComment.body
+        }
+      });
+    } catch (err) {
+      res.status(400).send({
+        status: 400,
+        error: err.message
       });
     }
   }

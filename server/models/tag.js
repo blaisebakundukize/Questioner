@@ -1,4 +1,4 @@
-import nextId from '../utils/nextId';
+import db from '../database/index';
 
 /**
  * This model represents tags
@@ -7,49 +7,54 @@ import nextId from '../utils/nextId';
  */
 class Tag {
   /**
-   * @constructor
-   */
-  constructor() {
-    this.tags = [];
-  }
-
-  /**
    * Get all tags
    * @returns {Array} Array of all tags
    */
-  // Not using now
-  // getAll() {
-  //   return this.tags;
-  // }
-
-  /**
-   * Get tags by ids
-   * @param {Array} ids - Array of tags' ids to retrieve
-   * @returns {Array} Array of tags
-   */
-  // Not using now
-  // getTags(ids) {
-  //   return ids.map(this.getById);
-  // }
+  getAll() {
+    const queryGetTags = 'SELECT * FROM tags';
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { rows } = await db.query(queryGetTags);
+        if (!rows[0]) {
+          reject(new Error('Tags are not available'));
+        }
+        resolve(rows);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
 
   /**
    * Get tag by id
    * @param {Number} id - id of a specified tag
    * @return {Object} data for specified tag
    */
-  // Not using now
-  // getById(id) {
-  //   return this.tags.find(tag => tag.id === id);
-  // }
+  getById(id) {
+    const queryGetTag = 'SELECT * FROM tags WHERE name = $1';
+    return new Promise(async (resolve, reject) => {
+      const { rows } = await db.query(queryGetTag, [id]);
+      if (!rows[0]) {
+        reject(new Error('Tag with the given id does not exit'));
+      }
+      resolve(rows);
+    });
+  }
 
   /**
    * Create a new Tag
    *@param {String} tag - Tag name
    */
   create(tag) {
-    const nId = nextId(this.tags);
-    this.tags.push({ id: nId, name: tag });
-    return { id: nId, name: tag };
+    const queryCreateTag = 'INSERT INTO tags(name) VALUES ($1) returning *';
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { rows } = await db.query(queryCreateTag, [tag]);
+        resolve(rows);
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 
   /**
@@ -58,29 +63,22 @@ class Tag {
    * @return {Array} Array of tags
    */
   createUnfoundTags(names) {
-    const createdTags = names.map((name) => {
-      let tag = this.getByName(name);
-      if (tag === undefined) {
-        tag = this.create(name);
+    return new Promise(async (resolve, reject) => {
+      try {
+        const tagsId = [];
+        for (let i = 0; i < names.length; i += 1) {
+          let retrievedTag = await this.getByName(names[i]);
+          if (!retrievedTag[0]) {
+            retrievedTag = await this.create(names[i]);
+          }
+          tagsId.push(retrievedTag[0].tag_id);
+        }
+        resolve(tagsId);
+      } catch (error) {
+        reject(error);
       }
-      return tag;
     });
-    return createdTags;
   }
-
-  /**
-   * Get tags by Names
-   * @param {Array} names - Array of tags'names to fetch
-   * @return {Array} Array of tags
-   */
-  // Not using now
-  // getTagsIdByNames(names) {
-  //   const tagsFound = names.map((name) => {
-  //     const tag = this.getByName(name);
-  //     return tag.id;
-  //   });
-  //   return tagsFound;
-  // }
 
   /**
    * Get tag by id
@@ -88,7 +86,36 @@ class Tag {
    * @return {Object} data for specified tag
    */
   getByName(tagName) {
-    return this.tags.find(tag => tag.name === tagName);
+    const queryGetTag = 'SELECT * FROM tags WHERE name = $1';
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { rows } = await db.query(queryGetTag, [tagName]);
+        resolve(rows);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  /**
+   * Insert multiple tags Id with meetup Id
+   * @param {Array} tagsId - Array of tag ids
+   * @param {Number} meetupId - meetup id
+   */
+  meetupHasTags(tagsId, meetupId) {
+    const queryMeetupHasTag = 'iNSERT INTO meetup_has_tags(tag, meetup) values($1, $2)';
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = tagsId.map((tag) => {
+          const rows = db.query(queryMeetupHasTag, [tag, meetupId]);
+          return rows[0];
+        });
+        await Promise.all(result);
+        resolve(result);
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 }
 

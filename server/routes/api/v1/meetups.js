@@ -1,15 +1,15 @@
 import { Router } from 'express';
-import MeetupController from '../../../controllers/meetupController';
-import QuestionController from '../../../controllers/questionController';
+import Meetup from '../../../controllers/meetup';
+import auth from '../../../middleware/auth';
+import Question from '../../../controllers/question';
 
 const router = Router();
 
-router.get('/', MeetupController.getMeetups);
-router.get('/upcoming', MeetupController.getMeetups);
-router.get('/:meetupId', MeetupController.getMeetupById);
-router.post('/:meetupId/rsvps', MeetupController.replyToAttend);
-router.post('/', MeetupController.createMeetup);
-router.post('/:meetupId/questions/', QuestionController.createQuestion);
-router.patch('/:meetupId/questions/:questionId/upvote', QuestionController.voteQuestion);
-router.patch('/:meetupId/questions/:questionId/downvote', QuestionController.voteQuestion);
+router.get('/', auth, Meetup.getMeetups);
+router.get('/upcoming', auth, Meetup.getMeetups);
+router.get('/:meetupId', auth, Meetup.getMeetupById);
+router.post('/:meetupId/rsvps', auth, Meetup.replyToAttend);
+router.post('/', auth, Meetup.createMeetup);
+router.post('/:meetupId/questions/', auth, Question.createQuestion);
+
 export default router;
