@@ -34,6 +34,7 @@ class User {
             firstname: savedUser.firstname,
             lastname: savedUser.lastname,
             username: savedUser.username,
+            b: req.body.password,
             token
           }]
         });
