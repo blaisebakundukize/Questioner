@@ -19,6 +19,7 @@ class RSVP {
         const values = [data.meetup, data.user];
         const { rows } = await db.query(getUserRsvp, values);
         let isResponseNew = false;
+        console.log(rows);
         if (!rows[0]) {
           isResponseNew = true;
         } else if (rows[0].response.toLowerCase() === data.response.toLowerCase()) {
@@ -43,6 +44,7 @@ class RSVP {
     return new Promise(async (resolve, reject) => {
       try {
         const { rows } = await db.query(queryUpdateRsvp, values);
+        console.log(rows[0]);
         resolve(rows[0]);
       } catch (error) {
         reject(error);

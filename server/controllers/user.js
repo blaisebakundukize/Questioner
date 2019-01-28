@@ -19,11 +19,12 @@ class User {
     try {
       const isUserValidated = await validateUser(req.body);
       const isUserEmailUsed = await user.getUserByEmail(req.body.email);
+      const isPhoneUsed = await user.getUserByPhone(req.body.phoneNumber);
       const isUsernameUsed = await user.getUser(req.body.username);
       if (isUsernameUsed[0]) {
         throw new Error('Username is already used');
       }
-      if (isUserValidated && isUserEmailUsed) {
+      if (isUserValidated && isUserEmailUsed && isPhoneUsed) {
         const salt = await bcrypt.genSalt(10);
         req.body.password = await bcrypt.hash(req.body.password, salt);
         const savedUser = await user.create(req.body);

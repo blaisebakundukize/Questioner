@@ -42,7 +42,7 @@ class User {
   }
 
   /**
-   * Get user username
+   * Get user by username
    * @param {String} email - Username
    * @return {Object} user details
    */
@@ -53,6 +53,28 @@ class User {
         const { rows } = await db.query(getUser, [email]);
         if (rows[0]) {
           reject(new Error('Email is already used'));
+        } else {
+          resolve(true);
+        }
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  /**
+   * get user by phone number
+   * @param {String} phoneNumber - User phone number
+   * @returns {Promise} Resolve as boolean or Reject
+   */
+  getUserByPhone(phoneNumber) {
+    const queryGetUser = 'SELECT username FROM users WHERE phone_number = $1';
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { rows } = await db.query(queryGetUser, [phoneNumber]);
+        console.log(rows);
+        if (rows[0]) {
+          reject(new Error('Phone number is already registered with another account'));
         } else {
           resolve(true);
         }
