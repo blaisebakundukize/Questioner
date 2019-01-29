@@ -10,6 +10,7 @@
         "no-console": "off",
         "no-await-in-loop": "off",
         "linebreak-style": 0,
+        "newline-per-chained-call": "off",
         "max-len": 0,
         "comma-dangle": [
             "error",

@@ -160,6 +160,23 @@ class Question {
       }
     });
   }
+
+  /**
+   * Get Comment by comment body and Question Id
+   * @param {Object} data - Comment details
+   */
+  getComment(data) {
+    const queryGetComment = 'SELECT * FROM comments WHERE question = $1 AND body = $2';
+    const values = [data.question, data.body];
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { rows } = await db.query(queryGetComment, values);
+        resolve(rows);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
 }
 
 export default new Question();

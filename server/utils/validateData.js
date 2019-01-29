@@ -8,14 +8,14 @@ import Joi from 'joi';
  */
 const validateUser = (user) => {
   const schema = Joi.object().keys({
-    firstname: Joi.string().min(3).max(50).required(),
-    lastname: Joi.string().min(3).max(50).required(),
-    othername: Joi.string().allow('').min(3).max(50)
+    firstname: Joi.string().trim().min(3).max(50).required(),
+    lastname: Joi.string().trim().min(3).max(50).required(),
+    othername: Joi.string().trim().allow('').min(3).max(50)
       .optional(),
-    email: Joi.string().email().required(),
+    email: Joi.string().trim().email().required(),
     phoneNumber: Joi.string().regex(/^\d{3}-\d{3}-\d{4}$/),
-    username: Joi.string().min(8).max(50).required(),
-    password: Joi.string().min(6).max(30).required()
+    username: Joi.string().trim().min(8).max(50).required(),
+    password: Joi.string().trim().min(6).max(30).required()
   });
 
   return new Promise((resolve, reject) => {
@@ -26,6 +26,23 @@ const validateUser = (user) => {
     resolve(true);
   });
 };
+
+/**
+ * Validate Comment body
+ * @param {Object} comment - Comment body
+ * @returns {Promise} Resolve or reject
+ */
+const validateComment = (comment) => {
+  const schema = Joi.object().keys({
+    body: Joi.string().trim().min(15).required()
+  });
+  return new Promise((resolve, reject) => {
+    const { error } = Joi.validate(comment, schema);
+    if (error) {
+      reject(error.details[0]);
+    } resolve(true);
+  });
+}
 
 /**
  * Validate function for a new meetup
@@ -122,5 +139,6 @@ export {
   validateQuestion,
   validateUserId,
   validateRSVP,
-  validateUser
+  validateUser,
+  validateComment
 };
